@@ -3,7 +3,7 @@ title: SvelteKit
 description: A simple SvelteKit app
 tags:
   - svelte
-  - typescript
+  - javascript
   - tailwind
 ---
 
@@ -16,7 +16,7 @@ This example is a simple [SvelteKit](https://svelte.dev/) app.
 ## ✨ Features
 
 - Svelte 5
-- TypeScript
+- JavaScript
 - Tailwind
 
 ## 💁‍♀️ How to use
@@ -27,7 +27,7 @@ This example is a simple [SvelteKit](https://svelte.dev/) app.
 
 ## 📝 Notes
 
-This example was created by running `npx sv create svelteapp` And then following our guide to set it up for production readiness - 
+This example was created by running `npx sv create svelteapp` And then following our guide to set it up for production readiness -
 
 https://docs.railway.app/guides/sveltekit
 
