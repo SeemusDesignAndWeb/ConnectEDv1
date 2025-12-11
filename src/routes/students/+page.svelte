@@ -269,70 +269,28 @@
 			</p>
 
 			<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-				<div class="bg-card border-border rounded-xl border p-6 text-center">
-					<div
-						class="bg-primary/10 mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full"
-					>
-						<svg class="text-primary h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-							/>
-						</svg>
+				{#each (pageSections?.features?.researcherPassport?.features || []) as feature}
+					<div class="bg-card border-border rounded-xl border p-6 text-center">
+						<div
+							class="bg-primary/10 mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full"
+						>
+							{#if feature.iconId && getIcon(feature.iconId)}
+								{@html getIcon(feature.iconId)}
+							{:else}
+								<svg class="text-primary h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+									/>
+								</svg>
+							{/if}
+						</div>
+						<h4 class="text-foreground mb-2 font-medium">{feature.title || 'Feature'}</h4>
+						<p class="text-muted-foreground text-sm">{feature.description || ''}</p>
 					</div>
-					<h4 class="text-foreground mb-2 font-medium">Verified Identity</h4>
-					<p class="text-muted-foreground text-sm">Authenticated academic credentials</p>
-				</div>
-				<div class="bg-card border-border rounded-xl border p-6 text-center">
-					<div
-						class="bg-primary/10 mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full"
-					>
-						<svg class="text-primary h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-							/>
-						</svg>
-					</div>
-					<h4 class="text-foreground mb-2 font-medium">Training Records</h4>
-					<p class="text-muted-foreground text-sm">Complete history of development</p>
-				</div>
-				<div class="bg-card border-border rounded-xl border p-6 text-center">
-					<div
-						class="bg-primary/10 mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full"
-					>
-						<svg class="text-primary h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-							/>
-						</svg>
-					</div>
-					<h4 class="text-foreground mb-2 font-medium">Research Outputs</h4>
-					<p class="text-muted-foreground text-sm">Publications and contributions</p>
-				</div>
-				<div class="bg-card border-border rounded-xl border p-6 text-center">
-					<div
-						class="bg-primary/10 mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full"
-					>
-						<svg class="text-primary h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
-							/>
-						</svg>
-					</div>
-					<h4 class="text-foreground mb-2 font-medium">Portable</h4>
-					<p class="text-muted-foreground text-sm">Moves with you across institutions</p>
-				</div>
+				{/each}
 			</div>
 		</div>
 	</section>

@@ -127,28 +127,30 @@
 						icon={getIcon(feature.iconId) || [matchingIcon, workflowIcon, adminIcon, insightIcon, outcomeIcon][index] || matchingIcon}
 					/>
 				{/each}
-				<div class="bg-primary flex flex-col justify-center rounded-xl p-8">
-					<h3 class="text-primary-foreground mb-3 text-lg font-semibold">
-						Ready to transform your doctoral programme?
-					</h3>
-					<p class="text-primary-foreground/80 mb-6 text-sm leading-relaxed">
-						Join leading universities who are improving efficiency and outcomes with ConnectED.
-					</p>
-					<a
-						href="/contact"
-						class="text-primary-foreground inline-flex items-center text-sm font-medium hover:underline"
-					>
-						Explore partnership options
-						<svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M9 5l7 7-7 7"
-							/>
-						</svg>
-					</a>
-				</div>
+				{#if pageSections?.solutions?.ctaCard}
+					<div class="bg-primary flex flex-col justify-center rounded-xl p-8">
+						<h3 class="text-primary-foreground mb-3 text-lg font-semibold">
+							{pageSections.solutions.ctaCard.heading || 'Ready to transform your doctoral programme?'}
+						</h3>
+						<p class="text-primary-foreground/80 mb-6 text-sm leading-relaxed">
+							{pageSections.solutions.ctaCard.description || 'Join leading universities who are improving efficiency and outcomes with ConnectED.'}
+						</p>
+						<a
+							href={pageSections.solutions.ctaCard.linkUrl || '/contact'}
+							class="text-primary-foreground inline-flex items-center text-sm font-medium hover:underline"
+						>
+							{pageSections.solutions.ctaCard.linkText || 'Explore partnership options'}
+							<svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M9 5l7 7-7 7"
+								/>
+							</svg>
+						</a>
+					</div>
+				{/if}
 			</div>
 		</div>
 	</section>
@@ -168,54 +170,24 @@
 						{pageSections?.detailedSections?.betterMatching?.description || 'Our intelligent matching system analyses research interests, methodological approaches, and supervisor capacity to create optimal pairings. This leads to better-prepared applicants and more productive supervisory relationships.'}
 					</p>
 					<ul class="space-y-3">
-						<li class="flex items-center gap-3">
-							<svg
-								class="text-primary h-5 w-5"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M5 13l4 4L19 7"
-								/>
-							</svg>
-							<span class="text-muted-foreground">Research interest alignment</span>
-						</li>
-						<li class="flex items-center gap-3">
-							<svg
-								class="text-primary h-5 w-5"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M5 13l4 4L19 7"
-								/>
-							</svg>
-							<span class="text-muted-foreground">Supervisor capacity management</span>
-						</li>
-						<li class="flex items-center gap-3">
-							<svg
-								class="text-primary h-5 w-5"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M5 13l4 4L19 7"
-								/>
-							</svg>
-							<span class="text-muted-foreground">Improved proposal quality</span>
-						</li>
+						{#each (pageSections?.detailedSections?.betterMatching?.items || []) as item}
+							<li class="flex items-center gap-3">
+								<svg
+									class="text-primary h-5 w-5"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M5 13l4 4L19 7"
+									/>
+								</svg>
+								<span class="text-muted-foreground">{item}</span>
+							</li>
+						{/each}
 					</ul>
 				</div>
 				<div class="bg-secondary rounded-2xl p-8 lg:p-12">
@@ -246,54 +218,24 @@
 						{pageSections?.detailedSections?.dataInsights?.description || 'ConnectED provides comprehensive insights into researcher progress, skills development, and confidence indicators. Identify researchers who may need additional support early, and track outcomes across your doctoral programme.'}
 					</p>
 					<ul class="space-y-3">
-						<li class="flex items-center gap-3">
-							<svg
-								class="text-primary h-5 w-5"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M5 13l4 4L19 7"
-								/>
-							</svg>
-							<span class="text-muted-foreground">Skills progression tracking</span>
-						</li>
-						<li class="flex items-center gap-3">
-							<svg
-								class="text-primary h-5 w-5"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M5 13l4 4L19 7"
-								/>
-							</svg>
-							<span class="text-muted-foreground">Early intervention indicators</span>
-						</li>
-						<li class="flex items-center gap-3">
-							<svg
-								class="text-primary h-5 w-5"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M5 13l4 4L19 7"
-								/>
-							</svg>
-							<span class="text-muted-foreground">Programme-wide outcome analysis</span>
-						</li>
+						{#each (pageSections?.detailedSections?.dataInsights?.items || []) as item}
+							<li class="flex items-center gap-3">
+								<svg
+									class="text-primary h-5 w-5"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M5 13l4 4L19 7"
+									/>
+								</svg>
+								<span class="text-muted-foreground">{item}</span>
+							</li>
+						{/each}
 					</ul>
 				</div>
 			</div>

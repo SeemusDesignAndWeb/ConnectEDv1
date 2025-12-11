@@ -74,9 +74,11 @@
 			<div class="grid gap-12 lg:grid-cols-5">
 				<!-- Contact Info -->
 				<div class="lg:col-span-2">
-					<h2 class="text-foreground mb-6 font-serif text-2xl font-semibold">Let's connect</h2>
+					<h2 class="text-foreground mb-6 font-serif text-2xl font-semibold">
+						{pageSections?.formSection?.heading || 'Let\'s connect'}
+					</h2>
 					<p class="text-muted-foreground mb-8 leading-relaxed">
-						{pageSections?.formDescription || "Fill out the form and our team will get back to you within 48 hours. You can also reach us directly through the channels below."}
+						{pageSections?.formSection?.description || pageSections?.formDescription || "Fill out the form and our team will get back to you within 48 hours. You can also reach us directly through the channels below."}
 					</p>
 
 					<div class="space-y-6">
@@ -184,10 +186,10 @@
 								</svg>
 							</div>
 							<h3 class="text-foreground mb-3 text-xl font-semibold">
-								Thank you for reaching out!
+								{pageSections?.formSuccess?.heading || 'Thank you for reaching out!'}
 							</h3>
 							<p class="text-muted-foreground">
-								We've received your message and will get back to you within 48 hours.
+								{pageSections?.formSuccess?.message || "We've received your message and will get back to you within 48 hours."}
 							</p>
 						</div>
 					{:else}

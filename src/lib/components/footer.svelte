@@ -1,10 +1,27 @@
 <script>
 	import { imagePath } from '$lib/utils/images.js';
 	let logoError = $state(false);
+	let settings = $state(null);
 	
 	function handleLogoError() {
 		logoError = true;
 	}
+
+	$effect(() => {
+		(async () => {
+			try {
+				const response = await fetch('/api/settings');
+				if (response.ok) {
+					const data = await response.json();
+					if (data.settings) {
+						settings = data.settings;
+					}
+				}
+			} catch (error) {
+				console.error('Failed to load settings:', error);
+			}
+		})();
+	});
 </script>
 
 <footer class="bg-foreground text-background py-16">
@@ -27,8 +44,7 @@
 					<span class="text-background text-lg font-semibold">ConnectED</span>
 				</div>
 				<p class="text-background max-w-md text-sm leading-relaxed">
-					Bringing clarity, structure, and opportunity to the PhD lifecycle. Connecting students,
-					researchers, supervisors, and institutions.
+					{settings?.footer?.description || 'Bringing clarity, structure, and opportunity to the PhD lifecycle. Connecting students, researchers, supervisors, and institutions.'}
 				</p>
 			</div>
 
@@ -74,28 +90,32 @@
 			<div>
 				<h4 class="text-background mb-4 text-md font-medium uppercase tracking-wider">Connect</h4>
 				<ul class="space-y-3">
-					<li>
-						<a
-							href="https://www.linkedin.com"
-							class="text-background  text-sm transition-colors"
-							>LinkedIn</a
-						>
-					</li>
+					{#each (settings?.footer?.socialLinks || []) as link}
+						<li>
+							<a
+								href={link.url}
+								class="text-background  text-sm transition-colors"
+								>{link.name}</a
+							>
+						</li>
+					{/each}
 					
-					<li>
-						<a
-							href="mailto:contact@connected.com"
-							class="text-background  text-sm transition-colors"
-							>Email Us</a
-						>
-					</li>
+					{#if settings?.footer?.email}
+						<li>
+							<a
+								href="mailto:{settings.footer.email}"
+								class="text-background  text-sm transition-colors"
+								>Email Us</a
+							>
+						</li>
+					{/if}
 				</ul>
 			</div>
 		</div>
 
 		<div class="border-background/20 mt-12 border-t pt-8">
 			<p class="text-background text-center text-sm">
-				© 2025 ConnectED. All rights reserved.
+				{settings?.footer?.copyright || '© 2025 ConnectED. All rights reserved.'}
 			</p>
 		</div>
 	</div>
