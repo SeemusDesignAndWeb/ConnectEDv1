@@ -126,12 +126,12 @@
 				{#each (pageSections?.values?.items || []) as value}
 					<div class="bg-card border-border rounded-xl border p-8">
 						{#if value.iconId && getIcon(value.iconId)}
-							<div class="bg-primary/10 mb-6 flex h-12 w-12 items-center justify-center rounded-lg">
+							<div class="bg-primary/10 mb-6 grid rounded-lg">
 								{@html getIcon(value.iconId)}
 							</div>
 						{:else}
-							<div class="bg-primary/10 mb-6 flex h-12 w-12 items-center justify-center rounded-lg">
-								<svg class="text-primary h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<div class="bg-primary/10 mb-6 grid rounded-lg">
+								<svg class="w-12 h-12 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 									<path
 										stroke-linecap="round"
 										stroke-linejoin="round"
