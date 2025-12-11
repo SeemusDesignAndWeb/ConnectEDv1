@@ -1,10 +1,11 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 
-// Use DATABASE_PATH environment variable to determine where to read/write data
+// Use DATABASE_PATH or DATA_STORE environment variable to determine where to read/write data
 // Local: DATABASE_PATH=./data/database.json (or not set, defaults to relative path)
 // Production: DATABASE_PATH=/data/database.json (absolute path pointing to volume)
-const DB_PATH = process.env.DATABASE_PATH || './data/database.json';
+// Legacy: DATA_STORE is also supported for backward compatibility
+const DB_PATH = process.env.DATABASE_PATH || process.env.DATA_STORE || './data/database.json';
 
 /**
  * Get the resolved database path, handling both relative (local) and absolute (production) paths
