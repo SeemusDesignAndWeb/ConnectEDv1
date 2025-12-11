@@ -3,8 +3,9 @@ import { checkAuth } from '$lib/auth.js';
 import path from 'node:path';
 import fs from 'node:fs/promises';
 
+// Default to the writable volume location used in production containers
 const IMAGE_STORE = path
-	.resolve(process.env.IMAGE_STORE || process.env.VITE_IMAGE_STORE || 'data/images')
+	.resolve(process.env.IMAGE_STORE || process.env.VITE_IMAGE_STORE || '/data/images')
 	.replace(/\/$/, '');
 const PUBLIC_BASE = (process.env.IMAGE_BASE || process.env.VITE_IMAGE_BASE || '/images').replace(/\/$/, '');
 
