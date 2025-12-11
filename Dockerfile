@@ -21,9 +21,8 @@ RUN npm ci --omit=dev && npm cache clean --force
 COPY --from=builder /app/build ./build
 COPY --from=builder /app/data ./data
 
-# Seed Railway volume on first boot with database and (optional) images
-RUN mkdir -p /data/images \
-  && cp /app/data/database.json /data/database.json \
-  && if [ -d /app/data/images ]; then cp -r /app/data/images/. /data/images/; fi
+COPY docker-entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["node", "build/index.js"]
