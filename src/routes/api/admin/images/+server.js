@@ -4,8 +4,13 @@ import path from 'node:path';
 import fs from 'node:fs/promises';
 
 // Default to the writable volume location used in production containers
+// Use Railway volume mount path if available, otherwise default to /data/images
+const railwayMountPath = process.env.RAILWAY_VOLUME_MOUNT_PATH;
+const defaultImageStore = railwayMountPath 
+	? path.join(railwayMountPath, 'images')
+	: '/data/images';
 const IMAGE_STORE = path
-	.resolve(process.env.IMAGE_STORE || process.env.VITE_IMAGE_STORE || '/data/images')
+	.resolve(process.env.IMAGE_STORE || process.env.VITE_IMAGE_STORE || defaultImageStore)
 	.replace(/\/$/, '');
 const PUBLIC_BASE = (process.env.IMAGE_BASE || process.env.VITE_IMAGE_BASE || '/images').replace(/\/$/, '');
 

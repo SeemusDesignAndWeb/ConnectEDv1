@@ -3,8 +3,10 @@ import { join, dirname } from 'path';
 
 // Use DATA_STORE env variable, fallback to DATABASE_PATH for backwards compatibility, then default
 // Prefer the mounted volume in production if no env is provided
+// Also check for Railway volume mount path
+const railwayMountPath = process.env.RAILWAY_VOLUME_MOUNT_PATH;
 const defaultStore =
-	process.env.NODE_ENV === 'production' ? '/data' : './data';
+	railwayMountPath || (process.env.NODE_ENV === 'production' ? '/data' : './data');
 
 const DATA_STORE =
 	process.env.DATA_STORE || process.env.DATABASE_PATH || defaultStore;
