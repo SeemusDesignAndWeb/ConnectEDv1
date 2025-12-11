@@ -1,37 +1,10 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 
-// Use DATA_STORE env variable, fallback to DATABASE_PATH for backwards compatibility, then default
-// Prefer the mounted volume in production if no env is provided
-// Also check for Railway volume mount path (Railway mounts at /app/data for relative paths)
-const railwayMountPath = process.env.RAILWAY_VOLUME_MOUNT_PATH;
-const defaultStore =
-	railwayMountPath || (process.env.NODE_ENV === 'production' ? './data' : './data');
-
-const DATA_STORE =
-	process.env.DATA_STORE || process.env.DATABASE_PATH || defaultStore;
-
-const DB_PATH = DATA_STORE.endsWith('.json')
-	? DATA_STORE 
-	: `${DATA_STORE}/database.json`;
-
-/**
- * Determine if we're in production based on environment and path
- */
-function isProductionEnvironment() {
-	// Check NODE_ENV first
-	if (process.env.NODE_ENV === 'production') {
-		return true;
-	}
-	
-	// Check if DATA_STORE is set to a production volume path (like /DATA or /data)
-	// DATA_STORE is already defined above from process.env
-	if (DATA_STORE && (DATA_STORE === '/DATA' || DATA_STORE === '/data' || DATA_STORE.startsWith('/DATA/') || DATA_STORE.startsWith('/data/'))) {
-		return true;
-	}
-	
-	return false;
-}
+// Use DATABASE_PATH environment variable to determine where to read/write data
+// Local: DATABASE_PATH=./data/database.json (or not set, defaults to relative path)
+// Production: DATABASE_PATH=/data/database.json (absolute path pointing to volume)
+const DB_PATH = process.env.DATABASE_PATH || './data/database.json';
 
 /**
  * Get the resolved database path, handling both relative (local) and absolute (production) paths
@@ -40,25 +13,12 @@ function isProductionEnvironment() {
 function getDbPath() {
 	let finalPath;
 	if (DB_PATH.startsWith('./') || DB_PATH.startsWith('../')) {
-		// Relative path - resolve from project root (local development)
+		// Relative path - local development
 		finalPath = join(process.cwd(), DB_PATH);
-	} else if (DB_PATH.startsWith('/')) {
-		// Absolute path - use as-is (could be production volume or local absolute path)
-		finalPath = DB_PATH;
 	} else {
-		// Relative path without ./ - resolve from project root
-		finalPath = join(process.cwd(), DB_PATH);
+		// Absolute path - production (Railway volume)
+		finalPath = DB_PATH;
 	}
-
-	// Ensure the directory exists
-	const dir = dirname(finalPath);
-	try {
-		mkdirSync(dir, { recursive: true });
-	} catch (error) {
-		// Directory might already exist, or volume might not be mounted yet (during build)
-		console.warn('[DB] Could not create directory:', error.message);
-	}
-
 	return finalPath;
 }
 
@@ -81,40 +41,26 @@ const DEFAULT_DATABASE = {
 
 /**
  * Read the database from the file system
+ * In production, database MUST exist - throws error instead of creating empty database
  * @returns {object} The database object
  */
 export function readDatabase() {
 	const dbPath = getDbPath();
-	const isProduction = isProductionEnvironment();
-	
 	try {
-		if (!existsSync(dbPath)) {
-			if (isProduction) {
-				// In production, database must exist on the volume
-				console.error('[DB] CRITICAL: Database file not found in production at:', dbPath);
-				throw new Error(
-					`Database file not found at ${dbPath}. Please ensure the Railway volume is mounted and initialize the database.`
-				);
-			}
-
-			// Only auto-initialize in development
-			console.warn('[DB] Database file does not exist (development mode), initializing...');
-			writeDatabase(DEFAULT_DATABASE);
-			return DEFAULT_DATABASE;
-		}
-
 		const data = readFileSync(dbPath, 'utf-8');
 		return JSON.parse(data);
 	} catch (error) {
+		const isProduction = process.env.NODE_ENV === 'production' || dbPath.startsWith('/');
+
 		if (isProduction) {
-			console.error('[DB] CRITICAL: Failed to read database in production:', error.message);
+			// In production, database MUST exist - throw error instead of creating
 			throw new Error(
-				`Failed to read database at ${dbPath}. Please check file permissions and volume mount.`
+				`Database file not found at ${dbPath}. Please ensure the Railway volume is mounted and the database file exists.`
 			);
 		}
 
-		// In development, try to initialize if read fails
-		console.warn('[DB] Failed to read database, initializing with defaults:', error.message);
+		// Only auto-initialize in development
+		console.warn('[DB] Database file does not exist (development mode), initializing...');
 		writeDatabase(DEFAULT_DATABASE);
 		return DEFAULT_DATABASE;
 	}
@@ -126,8 +72,6 @@ export function readDatabase() {
  */
 export function writeDatabase(data) {
 	const dbPath = getDbPath();
-	const isProduction = isProductionEnvironment();
-	
 	try {
 		// Ensure directory exists
 		const dir = dirname(dbPath);
@@ -137,13 +81,6 @@ export function writeDatabase(data) {
 		writeFileSync(dbPath, JSON.stringify(data, null, 2), 'utf-8');
 		console.log('[DB] Database written successfully to:', dbPath);
 	} catch (error) {
-		if (isProduction) {
-			console.error('[DB] CRITICAL: Failed to write database in production:', error.message);
-			throw new Error(
-				`Failed to write database at ${dbPath}. Please check file permissions and volume mount.`
-			);
-		}
-
 		console.error('[DB] Failed to write database:', error.message);
 		throw error;
 	}
@@ -152,6 +89,7 @@ export function writeDatabase(data) {
 /**
  * Initialize the database with default structure
  * Useful for first-time setup or resetting the database
+ * @returns {boolean} True if initialized, false if already exists
  */
 export function initializeDatabase() {
 	const dbPath = getDbPath();
@@ -163,6 +101,55 @@ export function initializeDatabase() {
 
 	writeDatabase(DEFAULT_DATABASE);
 	console.log('[DB] Database initialized at:', dbPath);
+	return true;
+}
+
+/**
+ * Initialize the database with provided data
+ * Only works if database doesn't exist (safety check)
+ * @param {object} data - The database object to initialize with
+ * @returns {boolean} True if initialized, false if already exists
+ */
+export function initializeDatabaseWithData(data) {
+	const dbPath = getDbPath();
+
+	if (existsSync(dbPath)) {
+		console.log('[DB] Database already exists at:', dbPath);
+		return false;
+	}
+
+	// Validate data structure
+	if (!data || typeof data !== 'object') {
+		throw new Error('Invalid database data: must be an object');
+	}
+
+	// Log what we're about to write
+	console.log('[DB] Initializing database with provided data:');
+	console.log('[DB]   Keys:', Object.keys(data).join(', '));
+	console.log('[DB]   Pages:', data.pages?.length || 0);
+	console.log('[DB]   Team members:', data.team?.length || 0);
+	console.log('[DB]   Services:', data.services?.length || 0);
+	console.log('[DB]   Icons:', data.icons?.length || 0);
+	console.log('[DB]   Settings keys:', Object.keys(data.settings || {}).length);
+
+	writeDatabase(data);
+	
+	// Verify what was written by reading the file directly (avoiding readDatabase which might auto-init)
+	try {
+		const writtenContent = readFileSync(dbPath, 'utf-8');
+		const written = JSON.parse(writtenContent);
+		console.log('[DB] Verification - Written database contains:');
+		console.log('[DB]   Keys:', Object.keys(written).join(', '));
+		console.log('[DB]   Pages:', written.pages?.length || 0);
+		console.log('[DB]   Team members:', written.team?.length || 0);
+		console.log('[DB]   Services:', written.services?.length || 0);
+		console.log('[DB]   Icons:', written.icons?.length || 0);
+		console.log('[DB]   File size:', writtenContent.length, 'bytes');
+	} catch (verifyError) {
+		console.warn('[DB] Could not verify written database:', verifyError.message);
+	}
+	
+	console.log('[DB] Database initialized with provided data at:', dbPath);
 	return true;
 }
 

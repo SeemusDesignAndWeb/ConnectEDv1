@@ -1,0 +1,462 @@
+{
+  "pages": [
+    {
+      "id": "home",
+      "path": "/",
+      "title": "Home",
+      "content": "",
+      "sections": {
+        "hero": {
+          "title": "ConnectED – The PhD Journey, Connected",
+          "description": "ConnectED brings clarity, structure, and opportunity to the PhD lifecycle. Whether you're starting your research journey or supporting those who are, we're here to help.",
+          "studentButton": "I am a Student / Researcher",
+          "universityButton": "I am a University / Partner"
+        },
+        "mission": {
+          "strapline": "Our Mission",
+          "heading": "One connected ecosystem for the entire research journey",
+          "paragraph1": "ConnectED brings students, researchers, supervisors, and institutions into one connected ecosystem. Students gain clarity. Universities gain efficiency. Supervisors gain insight. Employers gain visibility.",
+          "paragraph2": "We understand that the PhD journey can feel overwhelming, fragmented, and uncertain. That's why we've built a platform that provides structure without rigidity, support without dependency, and clarity without oversimplification.",
+          "stats": {
+            "researchers": "10K+",
+            "institutions": "150+",
+            "supervisors": "500+",
+            "satisfaction": "95%"
+          }
+        },
+        "cta": {
+          "heading": "Ready to transform your research journey?",
+          "description": "ConnectED brings students, researchers, supervisors, and institutions into one connected ecosystem. Students gain clarity. Universities gain efficiency. Supervisors gain insight. Employers gain visibility.",
+          "studentButton": "Student / Researcher Path",
+          "universityButton": "University / Partner Path"
+        }
+      }
+    },
+    {
+      "id": "students",
+      "path": "/students",
+      "title": "Students & Researchers",
+      "content": "",
+      "sections": {
+        "hero": {
+          "strapline": "FOR STUDENTS & RESEARCHERS",
+          "title": "Navigate your research journey with clarity",
+          "description": "ConnectED is your companion throughout the entire PhD lifecycle. From finding the right supervisor to planning your career after graduation, we provide the structure and support you need to thrive."
+        },
+        "painPoints": {
+          "strapline": "Common Challenges",
+          "heading": "We understand the struggles you face",
+          "items": [
+            "Unclear expectations and uncertain milestones throughout the PhD journey",
+            "Scattered funding opportunities that are difficult to find and navigate",
+            "Limited guidance on structuring research and developing proposals",
+            "Difficulty finding the right supervisor with aligned research interests",
+            "Uncertainty about career paths after completing a doctorate",
+            "Feeling isolated without access to networks and mentorship"
+          ]
+        },
+        "solutions": {
+          "strapline": "Our Solutions",
+          "heading": "How ConnectED supports your journey"
+        },
+        "features": {
+          "entryPaths": {
+            "title": "Entry Paths",
+            "description": "Supervisor matching, proposal guidance, application roadmap, and progress tracking. We help you start your PhD journey on the right foot with clear direction and expert support.",
+            "strapline": "Entry Paths",
+            "heading": "Start your journey with confidence",
+            "iconId": "entry-path",
+            "image": "/images/researcher.jpg",
+            "items": [
+              {
+                "title": "Supervisor Matching",
+                "description": "Find supervisors whose research interests align with yours through intelligent matching.",
+                "iconId": "matching"
+              },
+              {
+                "title": "Proposal Guidance",
+                "description": "Structure your research proposal with expert templates and feedback.",
+                "iconId": "guidance"
+              },
+              {
+                "title": "Application Roadmap",
+                "description": "Navigate the application process with clear milestones and deadlines.",
+                "iconId": "workflow"
+              },
+              {
+                "title": "Progress Tracking",
+                "description": "Monitor your progress and stay accountable with structured milestones.",
+                "iconId": "progress"
+              }
+            ]
+          },
+          "exitPaths": {
+            "title": "Exit Paths",
+            "description": "Career mapping, skills translation, curated roles and fellowships, plus mentoring and networks. We prepare you for life after your PhD with actionable pathways forward.",
+            "strapline": "Exit Paths",
+            "heading": "Prepare for life after your PhD",
+            "iconId": "exit-path",
+            "image": "/images/career.jpg",
+            "items": [
+              {
+                "title": "Career Mapping",
+                "description": "Explore diverse career paths tailored to your skills and interests.",
+                "iconId": "outcome"
+              },
+              {
+                "title": "Skills Translation",
+                "description": "Learn how to articulate your research skills for industry and beyond.",
+                "iconId": "skills"
+              },
+              {
+                "title": "Curated Opportunities",
+                "description": "Access curated roles and fellowships matched to your profile.",
+                "iconId": "insight"
+              },
+              {
+                "title": "Mentoring & Networks",
+                "description": "Connect with mentors and expand your professional network.",
+                "iconId": "mentoring"
+              }
+            ]
+          },
+          "researcherPassport": {
+            "title": "Researcher Passport",
+            "description": "Your verified academic identity with training records, skills, outputs, and collaborations. Portable across institutions, it follows you throughout your entire academic career.",
+            "heading": "Your verified academic identity, wherever you go",
+            "subheading": "The Researcher Passport is your portable academic profile that follows you throughout your career. It captures your verified credentials, training, skills, outputs, and collaborations in one secure place.",
+            "iconId": "passport",
+            "features": [
+              {
+                "title": "Verified Identity",
+                "description": "Authenticated academic credentials",
+                "iconId": "research"
+              },
+              {
+                "title": "Training Records",
+                "description": "Complete history of development",
+                "iconId": "skills"
+              },
+              {
+                "title": "Research Outputs",
+                "description": "Publications and contributions",
+                "iconId": "documentation"
+              },
+              {
+                "title": "Portable",
+                "description": "Moves with you across institutions",
+                "iconId": "network"
+              }
+            ]
+          }
+        },
+        "cta": {
+          "heading": "Build your pathway with clarity",
+          "description": "Join thousands of researchers who have found structure and support with ConnectED. Start your journey today.",
+          "button": "Get Started with ConnectED"
+        }
+      }
+    },
+    {
+      "id": "universities",
+      "path": "/universities",
+      "title": "Universities & Partners",
+      "content": "",
+      "sections": {
+        "hero": {
+          "strapline": "FOR UNIVERSITIES & PARTNERS",
+          "title": "Efficiency and quality for your institution",
+          "description": "ConnectED helps universities and research partners streamline doctoral programmes, improve supervision workflows, and achieve better outcomes for researchers and institutions alike."
+        },
+        "painPoints": {
+          "strapline": "Institutional Challenges",
+          "heading": "We understand the pressures you face",
+          "items": [
+            "Heavy administrative load across the research lifecycle",
+            "Poor alignment between applicant capabilities and supervisor capacity",
+            "Low visibility into researcher development and progress",
+            "Inefficient supervision workflows with limited standardisation",
+            "Increasing pressure to support diverse career outcomes",
+            "Fragmented systems that don't communicate with each other"
+          ]
+        },
+        "solutions": {
+          "strapline": "Our Solutions",
+          "heading": "How ConnectED benefits your institution"
+        },
+        "features": [
+          {
+            "title": "Better Aligned Applicants",
+            "description": "AI-supported matching ensures applicants are paired with the right supervisors. Improved proposal quality means better-prepared candidates from day one.",
+            "iconId": "matching"
+          },
+          {
+            "title": "Efficient Supervisor Workflows",
+            "description": "Standardised profiles and readiness indicators help supervisors manage their time effectively. Clear expectations reduce friction and improve outcomes.",
+            "iconId": "workflow"
+          },
+          {
+            "title": "Reduced Administrative Burden",
+            "description": "The portable Researcher Passport eliminates repeated checks and paperwork. Verified credentials follow researchers, saving time across the institution.",
+            "iconId": "admin"
+          },
+          {
+            "title": "Insight into Researcher Development",
+            "description": "Track skills progression and confidence indicators throughout the PhD journey. Data-driven insights help identify and support researchers who need extra guidance.",
+            "iconId": "insight"
+          },
+          {
+            "title": "Improved Institutional Outcomes",
+            "description": "Higher completion rates and stronger alumni trajectories reflect well on your institution. ConnectED helps you achieve the outcomes that matter most.",
+            "iconId": "outcome"
+          }
+        ],
+        "detailedSections": {
+          "betterMatching": {
+            "strapline": "Better Matching",
+            "heading": "AI-powered applicant-supervisor matching",
+            "description": "Our intelligent matching system analyses research interests, methodological approaches, and supervisor capacity to create optimal pairings. This leads to better-prepared applicants and more productive supervisory relationships.",
+            "image": "/images/university.jpg",
+            "items": [
+              "Research interest alignment",
+              "Supervisor capacity management",
+              "Improved proposal quality"
+            ]
+          },
+          "dataInsights": {
+            "strapline": "Data-Driven Insights",
+            "heading": "Visibility into researcher development",
+            "description": "ConnectED provides comprehensive insights into researcher progress, skills development, and confidence indicators. Identify researchers who may need additional support early, and track outcomes across your doctoral programme.",
+            "image": "/images/dashboardpc.jpg",
+            "items": [
+              "Skills progression tracking",
+              "Early intervention indicators",
+              "Programme-wide outcome analysis"
+            ]
+          }
+        },
+        "cta": {
+          "heading": "Explore partnership opportunities with ConnectED",
+          "description": "Join leading institutions who are transforming their doctoral programmes. Let's discuss how ConnectED can support your strategic goals.",
+          "button": "Contact Us About Partnerships"
+        }
+      }
+    },
+    {
+      "id": "about",
+      "path": "/about",
+      "title": "About",
+      "content": "",
+      "sections": {
+        "hero": {
+          "title": "About ConnectED",
+          "description": "We believe the PhD journey shouldn't feel isolating, unclear, or overwhelming. ConnectED exists to bring structure, support, and connection to researchers and institutions alike."
+        },
+        "mission": {
+          "strapline": "Our Mission",
+          "heading": "Transforming the research journey",
+          "paragraph1": "ConnectED was founded on the understanding that the PhD lifecycle is complex, often fragmented, and rarely supported by cohesive infrastructure.",
+          "paragraph2": "Our mission is to bring clarity to researchers, efficiency to institutions, and connection across the entire ecosystem. We believe that when students, supervisors, universities, and employers work together, everyone benefits."
+        },
+        "vision": {
+          "strapline": "Our Vision",
+          "heading": "A connected future",
+          "paragraph1": "We envision a future where every researcher has a clear pathway from application to career, where institutions can support their doctoral programmes efficiently, and where the value of research is visible to society.",
+          "paragraph2": "ConnectED is building the infrastructure to make this vision a reality, one connection at a time."
+        },
+        "values": {
+          "strapline": "Our Values",
+          "heading": "What guides us",
+          "items": [
+            {
+              "title": "Human-Centred",
+              "description": "We design for real people with real challenges. Every feature starts with understanding the human experience."
+            },
+            {
+              "title": "Clarity",
+              "description": "We bring structure to complexity without oversimplifying. Clear pathways, clear expectations, clear outcomes."
+            },
+            {
+              "title": "Connection",
+              "description": "We build bridges between students, supervisors, institutions, and employers. Together, we achieve more."
+            }
+          ]
+        },
+        "cta": {
+          "heading": "Join the ConnectED community",
+          "description": "Whether you're a researcher starting your journey or an institution looking to improve outcomes, we're here to help.",
+          "studentButton": "FOR STUDENTS / RESEARCHERS",
+          "universityButton": "FOR UNIVERSITIES / PARTNERS"
+        }
+      }
+    },
+    {
+      "id": "contact",
+      "path": "/contact",
+      "title": "Contact",
+      "content": "",
+      "sections": {
+        "hero": {
+          "title": "Get in Touch",
+          "description": "Whether you're a student seeking clarity, a researcher looking for support, or an institution exploring partnership, we'd love to hear from you."
+        },
+        "contactInfo": {
+          "email": "hello@connected.edu",
+          "office": "Innovation Hub, Research Park\nCambridge, UK",
+          "responseTime": "Within 48 hours"
+        },
+        "formDescription": "Fill out the form and our team will get back to you within 48 hours. You can also reach us directly through the channels below.",
+        "faq": {
+          "heading": "Frequently Asked Questions",
+          "items": [
+            {
+              "question": "Is ConnectED free for students?",
+              "answer": "ConnectED offers free core features for students and researchers. Some advanced features may be available through institutional partnerships."
+            },
+            {
+              "question": "How do university partnerships work?",
+              "answer": "We work with institutions to integrate ConnectED into existing doctoral programmes. Contact us to discuss partnership models tailored to your needs."
+            },
+            {
+              "question": "Is my data secure?",
+              "answer": "Absolutely. We take data security seriously and comply with GDPR and institutional data protection requirements. Your Researcher Passport remains under your control."
+            }
+          ]
+        }
+      },
+      "updatedAt": "2025-12-11T10:35:11.023Z"
+    }
+  ],
+  "team": [],
+  "services": [],
+  "images": [
+    {
+      "name": "logo_colour",
+      "file": "logo_colour.svg",
+      "url": "/images/logo_colour.svg"
+    },
+    {
+      "name": "career",
+      "file": "career.jpg",
+      "url": "/images/career.jpg"
+    },
+    {
+      "name": "researcher",
+      "file": "researcher.jpg",
+      "url": "/images/researcher.jpg"
+    },
+    {
+      "name": "dashboardpc",
+      "file": "dashboardpc.jpg",
+      "url": "/images/dashboardpc.jpg"
+    },
+    {
+      "name": "university",
+      "file": "university.jpg",
+      "url": "/images/university.jpg"
+    }
+  ],
+  "settings": {},
+  "icons": [
+    {
+      "id": "entry-path",
+      "name": "Entry Path",
+      "svg": "<svg class=\"w-12 h-12 text-primary\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1\" /></svg>"
+    },
+    {
+      "id": "exit-path",
+      "name": "Exit Path",
+      "svg": "<svg class=\"w-12 h-12 text-primary\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1\" /></svg>"
+    },
+    {
+      "id": "passport",
+      "name": "Researcher Passport",
+      "svg": "<svg class=\"w-12 h-12 text-primary\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2\" /></svg>"
+    },
+    {
+      "id": "matching",
+      "name": "Matching",
+      "svg": "<svg class=\"w-12 h-12 text-primary\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z\" /></svg>"
+    },
+    {
+      "id": "workflow",
+      "name": "Workflow",
+      "svg": "<svg class=\"w-12 h-12 text-primary\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01\" /></svg>"
+    },
+    {
+      "id": "admin",
+      "name": "Administration",
+      "svg": "<svg class=\"w-12 h-12 text-primary\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10\" /></svg>"
+    },
+    {
+      "id": "insight",
+      "name": "Insights",
+      "svg": "<svg class=\"w-12 h-12 text-primary\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z\" /></svg>"
+    },
+    {
+      "id": "outcome",
+      "name": "Outcomes",
+      "svg": "<svg class=\"w-12 h-12 text-primary\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M13 7h8m0 0v8m0-8l-8 8-4-4-6 6\" /></svg>"
+    },
+    {
+      "id": "collaboration",
+      "name": "Collaboration",
+      "svg": "<svg class=\"w-12 h-12 text-primary\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z\" /></svg>"
+    },
+    {
+      "id": "mentoring",
+      "name": "Mentoring",
+      "svg": "<svg class=\"w-12 h-12 text-primary\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z\" /></svg>"
+    },
+    {
+      "id": "progress",
+      "name": "Progress Tracking",
+      "svg": "<svg class=\"w-12 h-12 text-primary\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z\" /></svg>"
+    },
+    {
+      "id": "communication",
+      "name": "Communication",
+      "svg": "<svg class=\"w-12 h-12 text-primary\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z\" /></svg>"
+    },
+    {
+      "id": "skills",
+      "name": "Skills Development",
+      "svg": "<svg class=\"w-12 h-12 text-primary\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253\" /></svg>"
+    },
+    {
+      "id": "network",
+      "name": "Network",
+      "svg": "<svg class=\"w-12 h-12 text-primary\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9\" /></svg>"
+    },
+    {
+      "id": "support",
+      "name": "Support",
+      "svg": "<svg class=\"w-12 h-12 text-primary\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z\" /></svg>"
+    },
+    {
+      "id": "achievement",
+      "name": "Achievement",
+      "svg": "<svg class=\"w-12 h-12 text-primary\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z\" /></svg>"
+    },
+    {
+      "id": "research",
+      "name": "Research",
+      "svg": "<svg class=\"w-12 h-12 text-primary\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10\" /></svg>"
+    },
+    {
+      "id": "guidance",
+      "name": "Guidance",
+      "svg": "<svg class=\"w-12 h-12 text-primary\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z\" /></svg>"
+    },
+    {
+      "id": "documentation",
+      "name": "Documentation",
+      "svg": "<svg class=\"w-12 h-12 text-primary\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z\" /></svg>"
+    },
+    {
+      "id": "analytics",
+      "name": "Analytics",
+      "svg": "<svg class=\"w-12 h-12 text-primary\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z\" /></svg>"
+    }
+  ]
+}
