@@ -2,8 +2,14 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 
 // Use DATA_STORE env variable, fallback to DATABASE_PATH for backwards compatibility, then default
-const DATA_STORE = process.env.DATA_STORE || process.env.DATABASE_PATH || './data';
-const DB_PATH = DATA_STORE.endsWith('.json') 
+// Prefer the mounted volume in production if no env is provided
+const defaultStore =
+	process.env.NODE_ENV === 'production' ? '/data' : './data';
+
+const DATA_STORE =
+	process.env.DATA_STORE || process.env.DATABASE_PATH || defaultStore;
+
+const DB_PATH = DATA_STORE.endsWith('.json')
 	? DATA_STORE 
 	: `${DATA_STORE}/database.json`;
 
