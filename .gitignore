@@ -19,3 +19,9 @@ Thumbs.db
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Data directory - should be on volume in production, not in git/build
+data/database.json
+data/images/
+# Keep database-restore.json as a backup reference (optional - can remove if preferred)
+# data/database-restore.json

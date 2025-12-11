@@ -8,3 +8,11 @@ Dockerfile*
 .env
 .env.*
 .DS_Store
+
+# Exclude data directory - this should be on a volume, not in the image
+data/
+# Exclude database files from being copied into Docker image
+database.json
+database-restore.json
+*.db
+*.sqlite
