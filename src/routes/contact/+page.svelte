@@ -8,10 +8,13 @@
 		email: '',
 		organization: '',
 		type: '',
-		message: ''
+		message: '',
+		website: '' // Honeypot field - bots will fill this, humans won't
 	});
 
 	let submitted = $state(false);
+	let submitting = $state(false);
+	let error = $state(null);
 	let pageSections = $state(null);
 
 	$effect(() => {
@@ -30,11 +33,42 @@
 		})();
 	});
 
-	function handleSubmit(event) {
+	async function handleSubmit(event) {
 		event.preventDefault();
-		// In a real app, this would send the form data to an API
-		console.log('[v0] Form submitted:', formData);
-		submitted = true;
+		submitting = true;
+		error = null;
+
+		try {
+			const response = await fetch('/api/contact', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(formData)
+			});
+
+			const result = await response.json();
+
+			if (!response.ok) {
+				throw new Error(result.error || 'Failed to send message');
+			}
+
+			submitted = true;
+			// Reset form
+			formData = {
+				name: '',
+				email: '',
+				organization: '',
+				type: '',
+				message: '',
+				website: ''
+			};
+		} catch (err) {
+			error = err.message;
+			console.error('Form submission error:', err);
+		} finally {
+			submitting = false;
+		}
 	}
 </script>
 
@@ -193,7 +227,14 @@
 							</p>
 						</div>
 					{:else}
-						<form onsubmit={handleSubmit} class="bg-card border-border rounded-2xl border p-8">
+						<form onsubmit={handleSubmit} class="bg-card border-border relative rounded-2xl border p-8">
+							{#if error}
+								<div class="bg-destructive/10 border-destructive/20 text-destructive mb-6 rounded-xl border p-4">
+									<p class="text-sm font-medium">Error: {error}</p>
+									<p class="mt-1 text-xs">Please try again or contact us directly.</p>
+								</div>
+							{/if}
+
 							<div class="mb-6 grid gap-6 sm:grid-cols-2">
 								<div>
 									<label for="name" class="text-foreground mb-2 block text-sm font-medium"
@@ -204,7 +245,8 @@
 										id="name"
 										bind:value={formData.name}
 										required
-										class="border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-ring w-full rounded-xl border px-4 py-3 focus:outline-none focus:ring-2"
+										disabled={submitting}
+										class="border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-ring w-full rounded-xl border px-4 py-3 focus:outline-none focus:ring-2 disabled:opacity-50"
 										placeholder="Your name"
 									/>
 								</div>
@@ -217,7 +259,8 @@
 										id="email"
 										bind:value={formData.email}
 										required
-										class="border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-ring w-full rounded-xl border px-4 py-3 focus:outline-none focus:ring-2"
+										disabled={submitting}
+										class="border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-ring w-full rounded-xl border px-4 py-3 focus:outline-none focus:ring-2 disabled:opacity-50"
 										placeholder="you@example.com"
 									/>
 								</div>
@@ -232,7 +275,8 @@
 										type="text"
 										id="organization"
 										bind:value={formData.organization}
-										class="border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-ring w-full rounded-xl border px-4 py-3 focus:outline-none focus:ring-2"
+										disabled={submitting}
+										class="border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-ring w-full rounded-xl border px-4 py-3 focus:outline-none focus:ring-2 disabled:opacity-50"
 										placeholder="University or company"
 									/>
 								</div>
@@ -244,7 +288,8 @@
 										id="type"
 										bind:value={formData.type}
 										required
-										class="border-input bg-background text-foreground focus:ring-ring w-full rounded-xl border px-4 py-3 focus:outline-none focus:ring-2"
+										disabled={submitting}
+										class="border-input bg-background text-foreground focus:ring-ring w-full rounded-xl border px-4 py-3 focus:outline-none focus:ring-2 disabled:opacity-50"
 									>
 										<option value="">Select an option</option>
 										<option value="student">Student / Researcher</option>
@@ -264,16 +309,31 @@
 									bind:value={formData.message}
 									required
 									rows="5"
-									class="border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-ring w-full resize-none rounded-xl border px-4 py-3 focus:outline-none focus:ring-2"
+									disabled={submitting}
+									class="border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-ring w-full resize-none rounded-xl border px-4 py-3 focus:outline-none focus:ring-2 disabled:opacity-50"
 									placeholder="How can we help you?"
 								></textarea>
 							</div>
 
+							<!-- Honeypot field - hidden from users but visible to bots -->
+							<div style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" aria-hidden="true">
+								<label for="website">Website (leave blank)</label>
+								<input
+									type="text"
+									id="website"
+									name="website"
+									tabindex="-1"
+									autocomplete="off"
+									bind:value={formData.website}
+								/>
+							</div>
+
 							<button
 								type="submit"
-								class="bg-primary text-primary-foreground hover:bg-primary/90 w-full rounded-xl px-8 py-3 font-medium transition-colors sm:w-auto"
+								disabled={submitting}
+								class="bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed w-full rounded-xl px-8 py-3 font-medium transition-colors sm:w-auto"
 							>
-								Send Message
+								{submitting ? 'Sending...' : 'Send Message'}
 							</button>
 						</form>
 					{/if}
