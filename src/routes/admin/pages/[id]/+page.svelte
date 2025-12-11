@@ -265,11 +265,10 @@ async function loadImages() {
 			<div class="flex items-center justify-between">
 				<div>
 					<h1 class="text-foreground mb-1 font-serif text-2xl font-semibold">Edit: {pageData.title}</h1>
-					<p class="text-muted-foreground text-sm">Path: {pageData.path}</p>
 				</div>
 			</div>
 			<!-- Mobile quick links -->
-			<div class="flex gap-2 overflow-x-auto lg:hidden">
+			<div class="flex gap-2 overflow-x-auto lg:hidden items-center">
 				{#each sectionLinks as link}
 					{#if sections && sections[link.key]}
 						<button
@@ -281,6 +280,15 @@ async function loadImages() {
 						</button>
 					{/if}
 				{/each}
+				<div class="ml-auto flex gap-2 items-center">
+					<button
+						onclick={handleSave}
+						disabled={saving}
+						class="bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 rounded-lg px-4 py-2 text-sm font-medium transition-colors"
+					>
+						{saving ? 'Saving...' : 'Save'}
+					</button>
+				</div>
 			</div>
 		</div>
 
@@ -299,24 +307,33 @@ async function loadImages() {
 		{#if sections}
 			<div class="grid gap-6 lg:grid-cols-[170px,1fr]">
 				<aside class="hidden lg:block">
-					<div class="sticky top-24 space-y-2 rounded-xl bg-card/80 p-2 shadow-sm backdrop-blur">
+					<div class="sticky top-24 space-y-2 rounded-xl bg-card/80 py-2 shadow-sm backdrop-blur">
 						{#each sectionLinks as link}
 							{#if sections && sections[link.key]}
 								<button
 									type="button"
 									onclick={() => scrollToSection(link.key)}
-									class="text-sm w-full rounded-lg px-3 py-2 text-left font-medium transition-colors hover:bg-primary/10 hover:text-primary text-muted-foreground"
+									class="text-sm w-full rounded-lg py-2 text-left font-medium transition-colors hover:bg-primary/10 hover:text-primary text-muted-foreground"
 								>
 									{link.label}
 								</button>
 							{/if}
 						{/each}
+						<div class="pt-4 border-t border-border mt-2">
+							<button
+								onclick={handleSave}
+								disabled={saving}
+								class="bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 rounded-lg px-4 py-2 w-full text-sm font-medium transition-colors"
+							>
+								{saving ? 'Saving...' : 'Save Changes'}
+							</button>
+						</div>
 					</div>
 				</aside>
 
 				<div class="space-y-6">
 				{#if sections.hero}
-					<div id="hero" class="bg-card rounded-xl p-6 shadow-sm scroll-mt-20">
+					<div id="hero" class="bg-secondary rounded-xl p-6 shadow-sm scroll-mt-20">
 						<h2 class="text-foreground mb-4 font-semibold">Hero Section</h2>
 						<div class="space-y-4">
 							{#each Object.entries(sections.hero) as [key, value]}
@@ -325,11 +342,15 @@ async function loadImages() {
 										<label class="text-foreground mb-2 block text-sm font-medium">
 											{key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
 										</label>
-										<input
-											type="text"
-											bind:value={sections.hero[key]}
-											class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-										/>
+										{#if key.includes('description')}
+											<HtmlEditor bind:value={sections.hero[key]} />
+										{:else}
+											<input
+												type="text"
+												bind:value={sections.hero[key]}
+												class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+											/>
+										{/if}
 									</div>
 								{:else if typeof value === 'object' && value !== null && !Array.isArray(value)}
 									<div class="border-border rounded-lg border p-4">
@@ -356,7 +377,7 @@ async function loadImages() {
 				{/if}
 
 				{#if sections.painPoints}
-					<div id="painPoints" class="bg-card rounded-xl p-6 shadow-sm scroll-mt-20">
+					<div id="painPoints" class="bg-muted rounded-xl p-6 shadow-sm scroll-mt-20">
 						<h2 class="text-foreground mb-4 font-semibold">Pain Points Section</h2>
 						{#if typeof sections.painPoints === 'object' && !Array.isArray(sections.painPoints)}
 							<div class="mb-6 space-y-4">
@@ -438,10 +459,10 @@ async function loadImages() {
 					</div>
 				{/if}
 
-				{#if sections.solutions}
-					<div id="solutions" class="bg-card rounded-xl p-6 shadow-sm scroll-mt-20">
-						<h2 class="text-foreground mb-4 font-semibold">Solutions Section</h2>
-						<div class="space-y-4">
+				{#if sections.solutions && sections.features}
+					<div id="solutions" class="bg-secondary rounded-xl p-6 shadow-sm scroll-mt-20">
+						<h2 class="text-foreground mb-4 font-semibold">Our Solutions</h2>
+						<div class="mb-6 space-y-4">
 							<div>
 								<label class="text-foreground mb-2 block text-sm font-medium">Strapline</label>
 								<input
@@ -459,167 +480,495 @@ async function loadImages() {
 								/>
 							</div>
 						</div>
+						{#if typeof sections.features === 'object' && sections.features !== null}
+							<div class="grid gap-4 md:grid-cols-3">
+								{#if sections.features.entryPaths}
+									{@const feature = sections.features.entryPaths}
+									<div class="bg-card border-border rounded-xl border p-6">
+										<div class="mb-4">
+											<button
+												type="button"
+												onclick={() => openIconPicker(`features.entryPaths.iconId`)}
+												class="border-input bg-background text-foreground hover:bg-secondary flex h-12 w-12 items-center justify-center rounded-lg border text-xs transition-colors focus:outline-none focus:ring-2 focus:ring-primary mb-3"
+											>
+												{#if feature.iconId}
+													{@html icons.find(i => i.id === feature.iconId)?.svg || ''}
+												{:else}
+													<svg class="text-muted-foreground h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+													</svg>
+												{/if}
+											</button>
+											<label class="text-foreground mb-2 block text-xs font-medium">Title</label>
+											<input
+												type="text"
+												bind:value={sections.features.entryPaths.title}
+												class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary mb-3"
+											/>
+											<label class="text-foreground mb-2 block text-xs font-medium">Description</label>
+											<HtmlEditor bind:value={sections.features.entryPaths.description} />
+										</div>
+									</div>
+								{/if}
+								{#if sections.features.exitPaths}
+									{@const feature = sections.features.exitPaths}
+									<div class="bg-card border-border rounded-xl border p-6">
+										<div class="mb-4">
+											<button
+												type="button"
+												onclick={() => openIconPicker(`features.exitPaths.iconId`)}
+												class="border-input bg-background text-foreground hover:bg-secondary flex h-12 w-12 items-center justify-center rounded-lg border text-xs transition-colors focus:outline-none focus:ring-2 focus:ring-primary mb-3"
+											>
+												{#if feature.iconId}
+													{@html icons.find(i => i.id === feature.iconId)?.svg || ''}
+												{:else}
+													<svg class="text-muted-foreground h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+													</svg>
+												{/if}
+											</button>
+											<label class="text-foreground mb-2 block text-xs font-medium">Title</label>
+											<input
+												type="text"
+												bind:value={sections.features.exitPaths.title}
+												class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary mb-3"
+											/>
+											<label class="text-foreground mb-2 block text-xs font-medium">Description</label>
+											<HtmlEditor bind:value={sections.features.exitPaths.description} />
+										</div>
+									</div>
+								{/if}
+								{#if sections.features.researcherPassport}
+									{@const feature = sections.features.researcherPassport}
+									<div class="bg-card border-border rounded-xl border p-6">
+										<div class="mb-4">
+											<button
+												type="button"
+												onclick={() => openIconPicker(`features.researcherPassport.iconId`)}
+												class="border-input bg-background text-foreground hover:bg-secondary flex h-12 w-12 items-center justify-center rounded-lg border text-xs transition-colors focus:outline-none focus:ring-2 focus:ring-primary mb-3"
+											>
+												{#if feature.iconId}
+													{@html icons.find(i => i.id === feature.iconId)?.svg || ''}
+												{:else}
+													<svg class="text-muted-foreground h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+													</svg>
+												{/if}
+											</button>
+											<label class="text-foreground mb-2 block text-xs font-medium">Title</label>
+											<input
+												type="text"
+												bind:value={sections.features.researcherPassport.title}
+												class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary mb-3"
+											/>
+											<label class="text-foreground mb-2 block text-xs font-medium">Description</label>
+											<HtmlEditor bind:value={sections.features.researcherPassport.description} />
+										</div>
+									</div>
+								{/if}
+							</div>
+						{/if}
 					</div>
 				{/if}
 
-				{#if sections.features}
-					<div id="features" class="bg-card rounded-xl p-6 shadow-sm scroll-mt-20">
-						<h2 class="text-foreground mb-4 font-semibold">Solutions</h2>
-						{#if Array.isArray(sections.features)}
-							<div class="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
-								{#each sections.features as feature, index}
-									<div class="bg-card border-border hover:border-primary/30 rounded-xl border p-6 transition-all duration-300 hover:shadow-lg">
-										<div class="mb-4 space-y-3">
-											<div class="flex items-center gap-3">
-												<button
-													type="button"
-													onclick={() => openIconPicker(`features.${index}.iconId`, index)}
-													class="border-input bg-background text-foreground hover:bg-secondary flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border text-xs transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
-												>
-													{#if sections.features[index].iconId}
-														{@html icons.find(i => i.id === sections.features[index].iconId)?.svg || ''}
-													{:else}
-														<svg class="text-muted-foreground h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-															<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-														</svg>
-													{/if}
-												</button>
-											</div>
-											<input
-												type="text"
-												placeholder="Solution title"
-												bind:value={sections.features[index].title}
-												class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-											/>
-										</div>
-										<div class="mb-4">
-											<label class="text-foreground mb-2 block text-xs font-medium">Description</label>
-											<HtmlEditor bind:value={sections.features[index].description} />
-										</div>
+				{#if sections.features && typeof sections.features === 'object' && sections.features !== null}
+					{#if sections.features.entryPaths && (sections.features.entryPaths.items || sections.features.entryPaths.image || sections.features.entryPaths.strapline || sections.features.entryPaths.heading)}
+						{@const featureValue = sections.features.entryPaths}
+						<div id="entryPaths" class="bg-muted rounded-xl p-6 shadow-sm scroll-mt-20">
+							<h2 class="text-foreground mb-4 font-semibold">Entry Paths Detail</h2>
+							<div class="space-y-4">
+								{#if featureValue.strapline !== undefined}
+									<div>
+										<label class="text-foreground mb-2 block text-xs font-medium">Strapline</label>
+										<input
+											type="text"
+											bind:value={sections.features.entryPaths.strapline}
+											class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+										/>
+									</div>
+								{/if}
+								{#if featureValue.heading !== undefined}
+									<div>
+										<label class="text-foreground mb-2 block text-xs font-medium">Heading</label>
+										<input
+											type="text"
+											bind:value={sections.features.entryPaths.heading}
+											class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+										/>
+									</div>
+								{/if}
+								{#if featureValue.image !== undefined}
+									<div>
+										<label class="text-foreground mb-2 block text-xs font-medium">Image</label>
 										<button
 											type="button"
-											onclick={() => sections.features.splice(index, 1)}
-											class="text-destructive hover:text-destructive/80 w-full text-xs"
+											onclick={() => openImagePicker(`features.entryPaths.image`)}
+											class="border-input bg-background text-foreground hover:bg-secondary flex w-full items-center gap-3 rounded-lg border px-3 py-2 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
 										>
-											Remove Feature
+											{#if sections.features.entryPaths.image}
+												<div class="bg-primary/10 flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg">
+													<img src={sections.features.entryPaths.image} alt="Selected image" class="h-full w-full object-cover" />
+												</div>
+												<span class="text-left truncate">{sections.features.entryPaths.image}</span>
+											{:else}
+												<div class="bg-muted flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
+													<svg class="text-muted-foreground h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+													</svg>
+												</div>
+												<span class="text-muted-foreground text-left">Select Image</span>
+											{/if}
+											<svg class="text-muted-foreground ml-auto h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+											</svg>
 										</button>
 									</div>
-								{/each}
-								<button
-									type="button"
-									onclick={() => sections.features.push({ title: '', description: '', iconId: '' })}
-									class="bg-card border-border hover:border-primary/30 flex h-full min-h-[200px] flex-col items-center justify-center rounded-xl border border-dashed p-6 text-sm text-muted-foreground transition-all duration-300 hover:shadow-lg"
-								>
-									<svg class="mb-2 h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-										/>
-									</svg>
-									+ Add Feature
-								</button>
-							</div>
-						{:else if typeof sections.features === 'object' && sections.features !== null}
-							<div class="space-y-6">
-								{#each Object.entries(sections.features) as [featureKey, featureValue]}
-								<div class="border-border rounded-lg border p-4">
-									<h3 class="text-foreground mb-4 text-sm font-semibold">
-										{featureKey.charAt(0).toUpperCase() + featureKey.slice(1).replace(/([A-Z])/g, ' $1')}
-									</h3>
-									{#if typeof featureValue === 'object' && featureValue !== null}
-										<div class="space-y-4">
-											{#if featureValue.iconId !== undefined || true}
-												<div class="flex">
+								{/if}
+								{#if featureValue.items}
+									<div>
+										<label class="text-foreground mb-3 block text-xs font-medium">Items</label>
+										<div class="grid gap-4 md:grid-cols-2">
+											{#each featureValue.items as item, itemIndex}
+												<div class="bg-card border-border hover:border-primary/30 rounded-xl border p-4 transition-all duration-300 hover:shadow-lg">
+													{#if item.title !== undefined}
+														<div class="mb-3">
+															<label class="text-foreground mb-1 block text-xs font-medium">Title</label>
+															<input
+																type="text"
+																bind:value={sections.features.entryPaths.items[itemIndex].title}
+																class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+															/>
+														</div>
+													{/if}
+													{#if item.description !== undefined}
+														<div class="mb-3">
+															<label class="text-foreground mb-1 block text-xs font-medium">Description</label>
+															<HtmlEditor bind:value={sections.features.entryPaths.items[itemIndex].description} />
+														</div>
+													{/if}
 													<button
 														type="button"
-														onclick={() => openIconPicker(`features.${featureKey}.iconId`)}
-														class="border-input bg-background text-foreground hover:bg-secondary flex h-12 w-12 items-center justify-center rounded-lg border text-xs transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
+														onclick={() => sections.features.entryPaths.items.splice(itemIndex, 1)}
+														class="text-destructive hover:text-destructive/80 w-full text-xs"
 													>
-														{#if sections.features[featureKey].iconId}
-															{@html icons.find(i => i.id === sections.features[featureKey].iconId)?.svg || ''}
-														{:else}
-															<svg class="text-muted-foreground h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-																<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-															</svg>
-														{/if}
+														Remove Item
 													</button>
 												</div>
-											{/if}
-											{#if featureValue.title !== undefined}
-												<div class="mb-4">
-													<input
-														type="text"
-														placeholder="Solution title"
-														bind:value={sections.features[featureKey].title}
-														class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+											{/each}
+											<button
+												type="button"
+												onclick={() => {
+													const newItem = {};
+													if (featureValue.items.length > 0) {
+														const firstItem = featureValue.items[0];
+														if (firstItem.title !== undefined) newItem.title = '';
+														if (firstItem.description !== undefined) newItem.description = '';
+													} else {
+														newItem.title = '';
+														newItem.description = '';
+													}
+													sections.features.entryPaths.items.push(newItem);
+												}}
+												class="bg-card border-border hover:border-primary/30 flex h-full min-h-[150px] flex-col items-center justify-center rounded-xl border border-dashed p-4 text-xs text-muted-foreground transition-all duration-300 hover:shadow-lg"
+											>
+												<svg class="mb-2 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<path
+														stroke-linecap="round"
+														stroke-linejoin="round"
+														stroke-width="2"
+														d="M12 6v6m0 0v6m0-6h6m-6 0H6"
 													/>
+												</svg>
+												+ Add Item
+											</button>
+										</div>
+									</div>
+								{/if}
+							</div>
+						</div>
+					{/if}
+				{/if}
+
+				{#if sections.features && typeof sections.features === 'object' && sections.features !== null}
+					{#if sections.features.exitPaths && (sections.features.exitPaths.items || sections.features.exitPaths.image || sections.features.exitPaths.strapline || sections.features.exitPaths.heading)}
+						{@const featureValue = sections.features.exitPaths}
+						<div id="exitPaths" class="bg-muted rounded-xl p-6 shadow-sm scroll-mt-20">
+							<h2 class="text-foreground mb-4 font-semibold">Exit Paths Detail</h2>
+							<div class="space-y-4">
+								{#if featureValue.strapline !== undefined}
+									<div>
+										<label class="text-foreground mb-2 block text-xs font-medium">Strapline</label>
+										<input
+											type="text"
+											bind:value={sections.features.exitPaths.strapline}
+											class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+										/>
+									</div>
+								{/if}
+								{#if featureValue.heading !== undefined}
+									<div>
+										<label class="text-foreground mb-2 block text-xs font-medium">Heading</label>
+										<input
+											type="text"
+											bind:value={sections.features.exitPaths.heading}
+											class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+										/>
+									</div>
+								{/if}
+								{#if featureValue.image !== undefined}
+									<div>
+										<label class="text-foreground mb-2 block text-xs font-medium">Image</label>
+										<button
+											type="button"
+											onclick={() => openImagePicker(`features.exitPaths.image`)}
+											class="border-input bg-background text-foreground hover:bg-secondary flex w-full items-center gap-3 rounded-lg border px-3 py-2 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
+										>
+											{#if sections.features.exitPaths.image}
+												<div class="bg-primary/10 flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg">
+													<img src={sections.features.exitPaths.image} alt="Selected image" class="h-full w-full object-cover" />
 												</div>
-											{/if}
-											{#if featureValue.description !== undefined}
-												<div class="mb-4">
-													<label class="text-foreground mb-2 block text-xs font-medium">Description</label>
-												<HtmlEditor bind:value={sections.features[featureKey].description} />
+												<span class="text-left truncate">{sections.features.exitPaths.image}</span>
+											{:else}
+												<div class="bg-muted flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
+													<svg class="text-muted-foreground h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+													</svg>
 												</div>
+												<span class="text-muted-foreground text-left">Select Image</span>
 											{/if}
-											{#if featureValue.image !== undefined}
-												<div class="mb-4">
-													<label class="text-foreground mb-2 block text-xs font-medium">Image</label>
+											<svg class="text-muted-foreground ml-auto h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+											</svg>
+										</button>
+									</div>
+								{/if}
+								{#if featureValue.items}
+									<div>
+										<label class="text-foreground mb-3 block text-xs font-medium">Items</label>
+										<div class="grid gap-4 md:grid-cols-2">
+											{#each featureValue.items as item, itemIndex}
+												<div class="bg-card border-border hover:border-primary/30 rounded-xl border p-4 transition-all duration-300 hover:shadow-lg">
+													{#if item.title !== undefined}
+														<div class="mb-3">
+															<label class="text-foreground mb-1 block text-xs font-medium">Title</label>
+															<input
+																type="text"
+																bind:value={sections.features.exitPaths.items[itemIndex].title}
+																class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+															/>
+														</div>
+													{/if}
+													{#if item.description !== undefined}
+														<div class="mb-3">
+															<label class="text-foreground mb-1 block text-xs font-medium">Description</label>
+															<HtmlEditor bind:value={sections.features.exitPaths.items[itemIndex].description} />
+														</div>
+													{/if}
 													<button
 														type="button"
-														onclick={() => openImagePicker(`features.${featureKey}.image`)}
-														class="border-input bg-background text-foreground hover:bg-secondary flex w-full items-center gap-3 rounded-lg border px-3 py-2 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
+														onclick={() => sections.features.exitPaths.items.splice(itemIndex, 1)}
+														class="text-destructive hover:text-destructive/80 w-full text-xs"
 													>
-														{#if sections.features[featureKey].image}
-															<div class="bg-primary/10 flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg">
-																<img src={sections.features[featureKey].image} alt="Selected image" class="h-full w-full object-cover" />
-															</div>
-															<span class="text-left truncate">{sections.features[featureKey].image}</span>
-														{:else}
-															<div class="bg-muted flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
+														Remove Item
+													</button>
+												</div>
+											{/each}
+											<button
+												type="button"
+												onclick={() => {
+													const newItem = {};
+													if (featureValue.items.length > 0) {
+														const firstItem = featureValue.items[0];
+														if (firstItem.title !== undefined) newItem.title = '';
+														if (firstItem.description !== undefined) newItem.description = '';
+													} else {
+														newItem.title = '';
+														newItem.description = '';
+													}
+													sections.features.exitPaths.items.push(newItem);
+												}}
+												class="bg-card border-border hover:border-primary/30 flex h-full min-h-[150px] flex-col items-center justify-center rounded-xl border border-dashed p-4 text-xs text-muted-foreground transition-all duration-300 hover:shadow-lg"
+											>
+												<svg class="mb-2 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<path
+														stroke-linecap="round"
+														stroke-linejoin="round"
+														stroke-width="2"
+														d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+													/>
+												</svg>
+												+ Add Item
+											</button>
+										</div>
+									</div>
+								{/if}
+							</div>
+						</div>
+					{/if}
+				{/if}
+
+				{#if sections.features && typeof sections.features === 'object' && sections.features !== null}
+					{#if sections.features.researcherPassport && (sections.features.researcherPassport.features || sections.features.researcherPassport.strapline || sections.features.researcherPassport.heading || sections.features.researcherPassport.subheading)}
+						{@const featureValue = sections.features.researcherPassport}
+						<div id="researcherPassport" class="bg-muted rounded-xl p-6 shadow-sm scroll-mt-20">
+							<h2 class="text-foreground mb-4 font-semibold">Researcher Passport Detail</h2>
+							<div class="space-y-4">
+								{#if featureValue.strapline !== undefined}
+									<div>
+										<label class="text-foreground mb-2 block text-xs font-medium">Strapline</label>
+										<input
+											type="text"
+											bind:value={sections.features.researcherPassport.strapline}
+											class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+										/>
+									</div>
+								{/if}
+								{#if featureValue.heading !== undefined}
+									<div>
+										<label class="text-foreground mb-2 block text-xs font-medium">Heading</label>
+										<input
+											type="text"
+											bind:value={sections.features.researcherPassport.heading}
+											class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+										/>
+									</div>
+								{/if}
+								{#if featureValue.subheading !== undefined}
+									<div>
+										<label class="text-foreground mb-2 block text-xs font-medium">Subheading</label>
+										<textarea
+											bind:value={sections.features.researcherPassport.subheading}
+											rows="2"
+											class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+										></textarea>
+									</div>
+								{/if}
+								{#if featureValue.features}
+									<div>
+										<label class="text-foreground mb-3 block text-xs font-medium">Features</label>
+										<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+											{#each featureValue.features as feature, featureIndex}
+												<div class="bg-card border-border rounded-xl border p-4">
+													<div class="mb-3">
+														<button
+															type="button"
+															onclick={() => openIconPicker(`features.researcherPassport.features.${featureIndex}.iconId`)}
+															class="border-input bg-background text-foreground hover:bg-secondary flex h-10 w-10 items-center justify-center rounded-lg border text-xs transition-colors focus:outline-none focus:ring-2 focus:ring-primary mx-auto"
+														>
+															{#if feature.iconId}
+																{@html icons.find(i => i.id === feature.iconId)?.svg || ''}
+															{:else}
 																<svg class="text-muted-foreground h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 																	<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
 																</svg>
-															</div>
-															<span class="text-muted-foreground text-left">Select Image</span>
-														{/if}
-														<svg class="text-muted-foreground ml-auto h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-															<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-														</svg>
+															{/if}
+														</button>
+													</div>
+													<div class="mb-2">
+														<label class="text-foreground mb-1 block text-xs font-medium">Title</label>
+														<input
+															type="text"
+															bind:value={sections.features.researcherPassport.features[featureIndex].title}
+															class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+														/>
+													</div>
+													<div>
+														<label class="text-foreground mb-1 block text-xs font-medium">Description</label>
+														<textarea
+															bind:value={sections.features.researcherPassport.features[featureIndex].description}
+															rows="3"
+															class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+														></textarea>
+													</div>
+													<button
+														type="button"
+														onclick={() => sections.features.researcherPassport.features.splice(featureIndex, 1)}
+														class="mt-2 text-destructive hover:text-destructive/80 w-full text-xs"
+													>
+														Remove Feature
 													</button>
 												</div>
-											{/if}
-											{#if featureValue.strapline !== undefined}
-												<div class="mb-4">
-													<label class="text-foreground mb-2 block text-xs font-medium">Strapline</label>
-													<input
-														type="text"
-														bind:value={sections.features[featureKey].strapline}
-														class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+											{/each}
+											<button
+												type="button"
+												onclick={() => {
+													if (!sections.features.researcherPassport.features) sections.features.researcherPassport.features = [];
+													sections.features.researcherPassport.features.push({ title: '', description: '', iconId: '' });
+												}}
+												class="bg-card border-border hover:border-primary/30 flex h-full min-h-[150px] flex-col items-center justify-center rounded-xl border border-dashed p-4 text-xs text-muted-foreground transition-all duration-300 hover:shadow-lg"
+											>
+												<svg class="mb-2 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<path
+														stroke-linecap="round"
+														stroke-linejoin="round"
+														stroke-width="2"
+														d="M12 6v6m0 0v6m0-6h6m-6 0H6"
 													/>
-												</div>
-											{/if}
-											{#if featureValue.heading !== undefined}
-												<div class="mb-4">
-													<label class="text-foreground mb-2 block text-xs font-medium">Heading</label>
-													<input
-														type="text"
-														bind:value={sections.features[featureKey].heading}
-														class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-													/>
-												</div>
-											{/if}
-											{#if featureValue.subheading !== undefined}
-												<div class="mb-4">
-													<label class="text-foreground mb-2 block text-xs font-medium">Subheading</label>
-													<textarea
-														bind:value={sections.features[featureKey].subheading}
-														rows="2"
-														class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-													></textarea>
-												</div>
-											{/if}
+												</svg>
+												+ Add Feature
+											</button>
+										</div>
+									</div>
+								{/if}
+							</div>
+						</div>
+					{/if}
+				{/if}
+
+				{#if sections.features && typeof sections.features === 'object' && sections.features !== null}
+					{#each Object.entries(sections.features) as [featureKey, featureValue]}
+						{#if featureKey !== 'entryPaths' && featureKey !== 'exitPaths' && featureKey !== 'researcherPassport'}
+							{#if typeof featureValue === 'object' && featureValue !== null && (featureValue.items || featureValue.image || featureValue.strapline || featureValue.heading)}
+								<div id="features-{featureKey}" class="bg-muted rounded-xl p-6 shadow-sm scroll-mt-20">
+									<h2 class="text-foreground mb-4 font-semibold">{featureKey.charAt(0).toUpperCase() + featureKey.slice(1).replace(/([A-Z])/g, ' $1')} Detail</h2>
+									<div class="space-y-4">
+										{#if featureValue.strapline !== undefined}
+											<div>
+												<label class="text-foreground mb-2 block text-xs font-medium">Strapline</label>
+												<input
+													type="text"
+													bind:value={sections.features[featureKey].strapline}
+													class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+												/>
+											</div>
+										{/if}
+										{#if featureValue.heading !== undefined}
+											<div>
+												<label class="text-foreground mb-2 block text-xs font-medium">Heading</label>
+												<input
+													type="text"
+													bind:value={sections.features[featureKey].heading}
+													class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+												/>
+											</div>
+										{/if}
+										{#if featureValue.image !== undefined}
+											<div>
+												<label class="text-foreground mb-2 block text-xs font-medium">Image</label>
+												<button
+													type="button"
+													onclick={() => openImagePicker(`features.${featureKey}.image`)}
+													class="border-input bg-background text-foreground hover:bg-secondary flex w-full items-center gap-3 rounded-lg border px-3 py-2 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
+												>
+													{#if sections.features[featureKey].image}
+														<div class="bg-primary/10 flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg">
+															<img src={sections.features[featureKey].image} alt="Selected image" class="h-full w-full object-cover" />
+														</div>
+														<span class="text-left truncate">{sections.features[featureKey].image}</span>
+													{:else}
+														<div class="bg-muted flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
+															<svg class="text-muted-foreground h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+																<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+															</svg>
+														</div>
+														<span class="text-muted-foreground text-left">Select Image</span>
+													{/if}
+													<svg class="text-muted-foreground ml-auto h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+													</svg>
+												</button>
+											</div>
+										{/if}
 										{#if featureValue.items}
 											<div>
 												<label class="text-foreground mb-3 block text-xs font-medium">Items</label>
@@ -639,11 +988,7 @@ async function loadImages() {
 															{#if item.description !== undefined}
 																<div class="mb-3">
 																	<label class="text-foreground mb-1 block text-xs font-medium">Description</label>
-																	<textarea
-																		bind:value={sections.features[featureKey].items[itemIndex].description}
-																		rows="2"
-																		class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-																	></textarea>
+																	<HtmlEditor bind:value={sections.features[featureKey].items[itemIndex].description} />
 																</div>
 															{/if}
 															<button
@@ -684,31 +1029,86 @@ async function loadImages() {
 												</div>
 											</div>
 										{/if}
+									</div>
+								</div>
+							{/if}
+						{/if}
+					{/each}
+				{/if}
+
+				{#if sections.features && Array.isArray(sections.features)}
+					<div id="features" class="bg-secondary rounded-xl p-6 shadow-sm scroll-mt-20">
+						<h2 class="text-foreground mb-4 font-semibold">Solutions</h2>
+						<div class="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
+							{#each sections.features as feature, index}
+								<div class="bg-card border-border hover:border-primary/30 rounded-xl border p-6 transition-all duration-300 hover:shadow-lg">
+									<div class="mb-4 space-y-3">
+										<div class="flex items-center gap-3">
+											<button
+												type="button"
+												onclick={() => openIconPicker(`features.${index}.iconId`, index)}
+												class="border-input bg-background text-foreground hover:bg-secondary flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border text-xs transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
+											>
+												{#if sections.features[index].iconId}
+													{@html icons.find(i => i.id === sections.features[index].iconId)?.svg || ''}
+												{:else}
+													<svg class="text-muted-foreground h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+													</svg>
+												{/if}
+											</button>
 										</div>
-									{/if}
+										<input
+											type="text"
+											placeholder="Solution title"
+											bind:value={sections.features[index].title}
+											class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+										/>
+									</div>
+									<div class="mb-4">
+										<label class="text-foreground mb-2 block text-xs font-medium">Description</label>
+										<HtmlEditor bind:value={sections.features[index].description} />
+									</div>
+									<button
+										type="button"
+										onclick={() => sections.features.splice(index, 1)}
+										class="text-destructive hover:text-destructive/80 w-full text-xs"
+									>
+										Remove Feature
+									</button>
 								</div>
 							{/each}
-							</div>
-						{/if}
+							<button
+								type="button"
+								onclick={() => sections.features.push({ title: '', description: '', iconId: '' })}
+								class="bg-card border-border hover:border-primary/30 flex h-full min-h-[200px] flex-col items-center justify-center rounded-xl border border-dashed p-6 text-sm text-muted-foreground transition-all duration-300 hover:shadow-lg"
+							>
+								<svg class="mb-2 h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+									/>
+								</svg>
+								+ Add Feature
+							</button>
+						</div>
 					</div>
 				{/if}
 
 				{#if sections.mission}
-					<div id="mission" class="bg-card rounded-xl p-6 shadow-sm scroll-mt-20">
+					<div id="mission" class="bg-muted rounded-xl p-6 shadow-sm scroll-mt-20">
 						<h2 class="text-foreground mb-4 font-semibold">Mission Section</h2>
 						<div class="space-y-4">
 							{#each Object.entries(sections.mission) as [key, value]}
-								{#if typeof value === 'string'}
+								{#if typeof value === 'string' && key !== 'paragraph2'}
 									<div>
 										<label class="text-foreground mb-2 block text-sm font-medium">
-											{key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
+											{key === 'paragraph1' ? 'Paragraph' : key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
 										</label>
 										{#if key.includes('paragraph') || key.includes('description')}
-											<textarea
-												bind:value={sections.mission[key]}
-												rows="3"
-												class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-											></textarea>
+											<HtmlEditor bind:value={sections.mission[key]} />
 										{:else}
 											<input
 												type="text"
@@ -722,18 +1122,46 @@ async function loadImages() {
 										<h3 class="text-foreground mb-3 text-sm font-semibold">
 											{key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
 										</h3>
-										{#each Object.entries(value) as [subKey, subValue]}
-											<div class="mb-3">
-												<label class="text-foreground mb-1 block text-xs font-medium">
-													{subKey.charAt(0).toUpperCase() + subKey.slice(1).replace(/([A-Z])/g, ' $1')}
-												</label>
-												<input
-													type="text"
-													bind:value={sections.mission[key][subKey]}
-													class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-												/>
+										{#if key === 'stats'}
+											{@const statsEntries = Object.entries(value)}
+											<div class="grid grid-cols-2 gap-4">
+												{#each Array(Math.ceil(statsEntries.length / 2)) as _, rowIndex}
+													{@const startIndex = rowIndex * 2}
+													{@const pair = statsEntries.slice(startIndex, startIndex + 2)}
+													<!-- Labels row -->
+													<div class="grid grid-cols-2 gap-4 col-span-2">
+														{#each pair as [subKey, subValue]}
+															<label class="text-foreground text-xs font-medium">
+																{subKey.charAt(0).toUpperCase() + subKey.slice(1).replace(/([A-Z])/g, ' $1')}
+															</label>
+														{/each}
+													</div>
+													<!-- Fields row -->
+													<div class="grid grid-cols-2 gap-4 col-span-2">
+														{#each pair as [subKey, subValue]}
+															<input
+																type="text"
+																bind:value={sections.mission[key][subKey]}
+																class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+															/>
+														{/each}
+													</div>
+												{/each}
 											</div>
-										{/each}
+										{:else}
+											{#each Object.entries(value) as [subKey, subValue]}
+												<div class="mb-3">
+													<label class="text-foreground mb-1 block text-xs font-medium">
+														{subKey.charAt(0).toUpperCase() + subKey.slice(1).replace(/([A-Z])/g, ' $1')}
+													</label>
+													<input
+														type="text"
+														bind:value={sections.mission[key][subKey]}
+														class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+													/>
+												</div>
+											{/each}
+										{/if}
 									</div>
 								{/if}
 							{/each}
@@ -742,7 +1170,7 @@ async function loadImages() {
 				{/if}
 
 				{#if sections.detailedSections}
-					<div id="detailedSections" class="bg-card rounded-xl p-6 shadow-sm scroll-mt-20">
+					<div id="detailedSections" class="bg-muted rounded-xl p-6 shadow-sm scroll-mt-20">
 						<h2 class="text-foreground mb-4 font-semibold">Detailed Sections</h2>
 						<div class="space-y-6">
 							{#each Object.entries(sections.detailedSections) as [sectionKey, sectionValue]}
@@ -802,11 +1230,7 @@ async function loadImages() {
 											{#if sectionValue.description !== undefined}
 												<div>
 													<label class="text-foreground mb-2 block text-xs font-medium">Description</label>
-													<textarea
-														bind:value={sections.detailedSections[sectionKey].description}
-														rows="3"
-														class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-													></textarea>
+													<HtmlEditor bind:value={sections.detailedSections[sectionKey].description} />
 												</div>
 											{/if}
 											{#if sectionValue.items}
@@ -851,21 +1275,17 @@ async function loadImages() {
 				{/if}
 
 				{#if sections.cta}
-					<div id="cta" class="bg-card rounded-xl p-6 shadow-sm scroll-mt-20">
-						<h2 class="text-foreground mb-4 font-semibold">Call to Action Section</h2>
+					<div id="cta" class="bg-primary rounded-xl p-6 shadow-sm scroll-mt-20">
+						<h2 class="text-primary-foreground mb-4 font-semibold">Call to Action Section</h2>
 						<div class="space-y-4">
 							{#each Object.entries(sections.cta) as [key, value]}
 								{#if typeof value === 'string'}
 									<div>
-										<label class="text-foreground mb-2 block text-sm font-medium">
+										<label class="text-primary-foreground mb-2 block text-sm font-medium">
 											{key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
 										</label>
 										{#if key.includes('description')}
-											<textarea
-												bind:value={sections.cta[key]}
-												rows="3"
-												class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-											></textarea>
+											<HtmlEditor bind:value={sections.cta[key]} />
 										{:else}
 											<input
 												type="text"
@@ -881,7 +1301,7 @@ async function loadImages() {
 				{/if}
 
 				{#if sections.contactInfo}
-					<div id="contactInfo" class="bg-card rounded-xl p-6 shadow-sm scroll-mt-20">
+					<div id="contactInfo" class="bg-muted rounded-xl p-6 shadow-sm scroll-mt-20">
 						<h2 class="text-foreground mb-4 font-semibold">Contact Information</h2>
 						<div class="space-y-4">
 							{#each Object.entries(sections.contactInfo) as [key, value]}
@@ -909,7 +1329,7 @@ async function loadImages() {
 				{/if}
 
 				{#if sections.faq}
-					<div id="faq" class="bg-card rounded-xl p-6 shadow-sm scroll-mt-20">
+					<div id="faq" class="bg-secondary rounded-xl p-6 shadow-sm scroll-mt-20">
 						<h2 class="text-foreground mb-4 font-semibold">FAQ Section</h2>
 						{#if typeof sections.faq === 'object' && !Array.isArray(sections.faq)}
 							<div class="mb-6 space-y-4">
@@ -936,11 +1356,7 @@ async function loadImages() {
 												</div>
 												<div>
 													<label class="text-foreground mb-2 block text-xs font-medium">Answer</label>
-													<textarea
-														bind:value={sections.faq.items[index].answer}
-														rows="3"
-														class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-													></textarea>
+													<HtmlEditor bind:value={sections.faq.items[index].answer} />
 												</div>
 												<button
 													type="button"
@@ -978,11 +1394,7 @@ async function loadImages() {
 										</div>
 										<div>
 											<label class="text-foreground mb-2 block text-xs font-medium">Answer</label>
-											<textarea
-												bind:value={sections.faq[index].answer}
-												rows="3"
-												class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-											></textarea>
+											<HtmlEditor bind:value={sections.faq[index].answer} />
 										</div>
 										<button
 											type="button"
@@ -1006,7 +1418,7 @@ async function loadImages() {
 				{/if}
 
 				{#if sections.values}
-					<div id="values" class="bg-card rounded-xl p-6 shadow-sm scroll-mt-20">
+					<div id="values" class="bg-muted rounded-xl p-6 shadow-sm scroll-mt-20">
 						<h2 class="text-foreground mb-4 font-semibold">Values Section</h2>
 						{#if typeof sections.values === 'object' && !Array.isArray(sections.values)}
 							<div class="mb-6 space-y-4">
@@ -1028,9 +1440,24 @@ async function loadImages() {
 								</div>
 								<div>
 									<label class="text-foreground mb-2 block text-sm font-medium">Values</label>
-									<div class="space-y-4">
+									<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 										{#each (sections.values.items || []) as value, index}
-											<div class="border-border rounded-lg border p-4">
+											<div class="bg-card border-border rounded-xl border p-4">
+												<div class="mb-3">
+													<button
+														type="button"
+														onclick={() => openIconPicker(`values.items.${index}.iconId`)}
+														class="border-input bg-background text-foreground hover:bg-secondary flex h-10 w-10 items-center justify-center rounded-lg border text-xs transition-colors focus:outline-none focus:ring-2 focus:ring-primary mx-auto mb-3"
+													>
+														{#if value.iconId}
+															{@html icons.find(i => i.id === value.iconId)?.svg || ''}
+														{:else}
+															<svg class="text-muted-foreground h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+																<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+															</svg>
+														{/if}
+													</button>
+												</div>
 												<div class="mb-3">
 													<label class="text-foreground mb-2 block text-xs font-medium">Title</label>
 													<input
@@ -1050,7 +1477,7 @@ async function loadImages() {
 												<button
 													type="button"
 													onclick={() => sections.values.items.splice(index, 1)}
-													class="mt-2 text-destructive hover:text-destructive/80 text-xs"
+													class="mt-2 text-destructive hover:text-destructive/80 w-full text-xs"
 												>
 													Remove Value
 												</button>
@@ -1062,17 +1489,40 @@ async function loadImages() {
 												if (!sections.values.items) sections.values.items = [];
 												sections.values.items.push({ title: '', description: '', iconId: '' });
 											}}
-											class="text-primary hover:text-primary/80 text-sm font-medium"
+											class="bg-card border-border hover:border-primary/30 flex h-full min-h-[150px] flex-col items-center justify-center rounded-xl border border-dashed p-4 text-xs text-muted-foreground transition-all duration-300 hover:shadow-lg"
 										>
+											<svg class="mb-2 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													stroke-width="2"
+													d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+												/>
+											</svg>
 											+ Add Value
 										</button>
 									</div>
 								</div>
 							</div>
 						{:else}
-							<div class="space-y-4">
+							<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 								{#each sections.values as value, index}
-									<div class="border-border rounded-lg border p-4">
+									<div class="bg-card border-border rounded-xl border p-4">
+										<div class="mb-3">
+											<button
+												type="button"
+												onclick={() => openIconPicker(`values.${index}.iconId`)}
+												class="border-input bg-background text-foreground hover:bg-secondary flex h-10 w-10 items-center justify-center rounded-lg border text-xs transition-colors focus:outline-none focus:ring-2 focus:ring-primary mx-auto mb-3"
+											>
+												{#if value.iconId}
+													{@html icons.find(i => i.id === value.iconId)?.svg || ''}
+												{:else}
+													<svg class="text-muted-foreground h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+													</svg>
+												{/if}
+											</button>
+										</div>
 										<div class="mb-3">
 											<label class="text-foreground mb-2 block text-xs font-medium">Title</label>
 											<input
@@ -1098,29 +1548,12 @@ async function loadImages() {
 				</div>
 			</div>
 		{:else}
-			<div class="bg-card border-border rounded-xl border p-6">
+			<div class="bg-muted border-border rounded-xl border p-6">
 				<p class="text-muted-foreground text-center">
 					No sections available for this page. Sections will be created automatically when content is added.
 				</p>
 		</div>
 		{/if}
-
-		<div class="flex items-center justify-end gap-4">
-			<a
-				href={pageData.path}
-				target="_blank"
-				class="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
-			>
-				View Page →
-			</a>
-			<button
-				onclick={handleSave}
-				disabled={saving}
-				class="bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 rounded-xl px-6 py-3 font-medium transition-colors"
-			>
-				{saving ? 'Saving...' : 'Save Changes'}
-			</button>
-		</div>
 	{/if}
 </div>
 

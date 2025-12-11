@@ -178,9 +178,9 @@
 								{/if}
 								<div>
 									<h4 class="text-foreground mb-1 font-medium">{item.title || 'Item'}</h4>
-									<p class="text-muted-foreground text-sm">
-										{item.description || ''}
-									</p>
+									<div class="text-muted-foreground text-sm prose prose-sm max-w-none">
+										{@html item.description || ''}
+									</div>
 								</div>
 							</div>
 						{/each}
@@ -241,9 +241,9 @@
 								{/if}
 								<div>
 									<h4 class="text-foreground mb-1 font-medium">{item.title || 'Item'}</h4>
-									<p class="text-muted-foreground text-sm">
-										{item.description || ''}
-									</p>
+									<div class="text-muted-foreground text-sm prose prose-sm max-w-none">
+										{@html item.description || ''}
+									</div>
 								</div>
 							</div>
 						{/each}
@@ -288,7 +288,9 @@
 							{/if}
 						</div>
 						<h4 class="text-foreground mb-2 font-medium">{feature.title || 'Feature'}</h4>
-						<p class="text-muted-foreground text-sm">{feature.description || ''}</p>
+						<div class="text-muted-foreground text-sm prose prose-sm max-w-none">
+							{@html feature.description || ''}
+						</div>
 					</div>
 				{/each}
 			</div>
@@ -303,9 +305,9 @@
 			>
 				{pageSections?.cta?.heading || 'Build your pathway with clarity'}
 			</h2>
-			<p class="text-primary-foreground/80 mx-auto mb-10 max-w-2xl text-lg leading-relaxed">
-				{pageSections?.cta?.description || 'Join thousands of researchers who have found structure and support with ConnectED. Start your journey today.'}
-			</p>
+			<div class="text-primary-foreground/80 mx-auto mb-10 max-w-2xl text-lg leading-relaxed prose prose-lg max-w-none">
+				{@html pageSections?.cta?.description || 'Join thousands of researchers who have found structure and support with ConnectED. Start your journey today.'}
+			</div>
 			<a
 				href="/contact"
 				class="bg-card text-foreground hover:bg-card/90 inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-medium transition-colors"

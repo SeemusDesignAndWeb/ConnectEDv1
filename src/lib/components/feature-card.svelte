@@ -12,5 +12,7 @@
 	</div>
 	{/if}
 	<h3 class="text-card-foreground mb-3 text-lg font-semibold">{title}</h3>
-	<p class="text-muted-foreground text-sm leading-relaxed">{description}</p>
+	<div class="text-muted-foreground text-sm leading-relaxed prose prose-sm max-w-none">
+		{@html description}
+	</div>
 </div>

@@ -295,9 +295,9 @@
 				{#each (pageSections?.faq?.items || []) as faq}
 				<div class="bg-card border-border rounded-xl border p-6">
 						<h4 class="text-foreground mb-2 font-medium">{faq.question}</h4>
-					<p class="text-muted-foreground text-sm leading-relaxed">
-							{faq.answer}
-					</p>
+					<div class="text-muted-foreground text-sm leading-relaxed prose prose-sm max-w-none">
+							{@html faq.answer}
+					</div>
 				</div>
 				{/each}
 			</div>

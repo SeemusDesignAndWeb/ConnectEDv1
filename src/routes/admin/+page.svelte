@@ -74,7 +74,6 @@
 							/>
 						</svg>
 					</div>
-					<p class="text-muted-foreground mb-2 text-sm">{page.path}</p>
 					{#if page.updatedAt}
 						<p class="text-muted-foreground text-xs">
 							Updated: {new Date(page.updatedAt).toLocaleDateString()}

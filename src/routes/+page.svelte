@@ -50,11 +50,11 @@
 			>
 				{pageSections?.hero?.title || 'ConnectED – The PhD Journey, Connected'}
 			</h1>
-			<p
-				class="text-muted-foreground mx-auto mb-12 max-w-2xl text-pretty text-lg leading-relaxed sm:text-xl"
+			<div
+				class="text-muted-foreground mx-auto mb-12 max-w-2xl text-pretty text-lg leading-relaxed sm:text-xl prose prose-lg max-w-none"
 			>
-				{pageSections?.hero?.description || "ConnectED brings clarity, structure, and opportunity to the PhD lifecycle. Whether you're starting your research journey or supporting those who are, we're here to help."}
-			</p>
+				{@html pageSections?.hero?.description || "ConnectED brings clarity, structure, and opportunity to the PhD lifecycle. Whether you're starting your research journey or supporting those who are, we're here to help."}
+			</div>
 
 			<!-- Audience Pathway Buttons -->
 			<div class="flex flex-col justify-center gap-4 sm:flex-row">
@@ -115,12 +115,9 @@
 					>
 						{pageSections?.mission?.heading || 'One connected ecosystem for the entire research journey'}
 					</h2>
-					<p class="text-muted-foreground mb-6 leading-relaxed">
-						{pageSections?.mission?.paragraph1 || "ConnectED brings students, researchers, supervisors, and institutions into one connected ecosystem. Students gain clarity. Universities gain efficiency. Supervisors gain insight. Employers gain visibility."}
-					</p>
-					<p class="text-muted-foreground leading-relaxed">
-						{pageSections?.mission?.paragraph2 || "We understand that the PhD journey can feel overwhelming, fragmented, and uncertain. That's why we've built a platform that provides structure without rigidity, support without dependency, and clarity without oversimplification."}
-					</p>
+					<div class="text-muted-foreground leading-relaxed prose prose-base max-w-none">
+						{@html pageSections?.mission?.paragraph1 || "ConnectED brings students, researchers, supervisors, and institutions into one connected ecosystem. Students gain clarity. Universities gain efficiency. Supervisors gain insight. Employers gain visibility."}
+					</div>
 				</div>
 				<div class="bg-secondary rounded-2xl p-8 lg:p-12">
 					<div class="grid grid-cols-2 gap-6">
@@ -160,9 +157,9 @@
 			<h2 class="text-foreground mb-6 text-balance font-serif text-3xl font-semibold sm:text-4xl">
 				{pageSections?.cta?.heading || 'Ready to transform your research journey?'}
 			</h2>
-			<p class="text-muted-foreground mx-auto mb-10 max-w-2xl text-lg leading-relaxed">
-				{pageSections?.cta?.description || "ConnectED brings students, researchers, supervisors, and institutions into one connected ecosystem. Students gain clarity. Universities gain efficiency. Supervisors gain insight. Employers gain visibility."}
-			</p>
+			<div class="text-muted-foreground mx-auto mb-10 max-w-2xl text-lg leading-relaxed prose prose-lg max-w-none">
+				{@html pageSections?.cta?.description || "ConnectED brings students, researchers, supervisors, and institutions into one connected ecosystem. Students gain clarity. Universities gain efficiency. Supervisors gain insight. Employers gain visibility."}
+			</div>
 			<div class="flex flex-col justify-center gap-4 sm:flex-row">
 				<a
 					href="/students"

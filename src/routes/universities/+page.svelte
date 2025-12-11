@@ -132,9 +132,9 @@
 						<h3 class="text-primary-foreground mb-3 text-lg font-semibold">
 							{pageSections.solutions.ctaCard.heading || 'Ready to transform your doctoral programme?'}
 						</h3>
-						<p class="text-primary-foreground/80 mb-6 text-sm leading-relaxed">
-							{pageSections.solutions.ctaCard.description || 'Join leading universities who are improving efficiency and outcomes with ConnectED.'}
-						</p>
+						<div class="text-primary-foreground/80 mb-6 text-sm leading-relaxed prose prose-sm max-w-none">
+							{@html pageSections.solutions.ctaCard.description || 'Join leading universities who are improving efficiency and outcomes with ConnectED.'}
+						</div>
 						<a
 							href={pageSections.solutions.ctaCard.linkUrl || '/contact'}
 							class="text-primary-foreground inline-flex items-center text-sm font-medium hover:underline"
@@ -166,9 +166,9 @@
 					<h2 class="text-foreground mb-6 mt-4 font-serif text-3xl font-semibold">
 						{pageSections?.detailedSections?.betterMatching?.heading || 'AI-powered applicant-supervisor matching'}
 					</h2>
-					<p class="text-muted-foreground mb-6 leading-relaxed">
-						{pageSections?.detailedSections?.betterMatching?.description || 'Our intelligent matching system analyses research interests, methodological approaches, and supervisor capacity to create optimal pairings. This leads to better-prepared applicants and more productive supervisory relationships.'}
-					</p>
+					<div class="text-muted-foreground mb-6 leading-relaxed prose prose-base max-w-none">
+						{@html pageSections?.detailedSections?.betterMatching?.description || 'Our intelligent matching system analyses research interests, methodological approaches, and supervisor capacity to create optimal pairings. This leads to better-prepared applicants and more productive supervisory relationships.'}
+					</div>
 					<ul class="space-y-3">
 						{#each (pageSections?.detailedSections?.betterMatching?.items || []) as item}
 							<li class="flex items-center gap-3">
@@ -214,9 +214,9 @@
 					<h2 class="text-foreground mb-6 mt-4 font-serif text-3xl font-semibold">
 						{pageSections?.detailedSections?.dataInsights?.heading || 'Visibility into researcher development'}
 					</h2>
-					<p class="text-muted-foreground mb-6 leading-relaxed">
-						{pageSections?.detailedSections?.dataInsights?.description || 'ConnectED provides comprehensive insights into researcher progress, skills development, and confidence indicators. Identify researchers who may need additional support early, and track outcomes across your doctoral programme.'}
-					</p>
+					<div class="text-muted-foreground mb-6 leading-relaxed prose prose-base max-w-none">
+						{@html pageSections?.detailedSections?.dataInsights?.description || 'ConnectED provides comprehensive insights into researcher progress, skills development, and confidence indicators. Identify researchers who may need additional support early, and track outcomes across your doctoral programme.'}
+					</div>
 					<ul class="space-y-3">
 						{#each (pageSections?.detailedSections?.dataInsights?.items || []) as item}
 							<li class="flex items-center gap-3">
@@ -250,9 +250,9 @@
 			>
 				{pageSections?.cta?.heading || 'Explore partnership opportunities with ConnectED'}
 			</h2>
-			<p class="text-primary-foreground/80 mx-auto mb-10 max-w-2xl text-lg leading-relaxed">
-				{pageSections?.cta?.description || "Join leading institutions who are transforming their doctoral programmes. Let's discuss how ConnectED can support your strategic goals."}
-			</p>
+			<div class="text-primary-foreground/80 mx-auto mb-10 max-w-2xl text-lg leading-relaxed prose prose-lg max-w-none">
+				{@html pageSections?.cta?.description || "Join leading institutions who are transforming their doctoral programmes. Let's discuss how ConnectED can support your strategic goals."}
+			</div>
 			<a
 				href="/contact"
 				class="bg-card text-foreground hover:bg-card/90 inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-medium transition-colors"
