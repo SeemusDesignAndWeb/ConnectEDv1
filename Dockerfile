@@ -17,12 +17,9 @@ ENV NODE_ENV=production
 COPY package*.json ./
 RUN npm ci --omit=dev && npm cache clean --force
 
-# Bring over built app and seed data (volume will overlay /app/data at runtime)
+# Bring over built app
 COPY --from=builder /app/build ./build
-COPY --from=builder /app/data ./data-seed
 
-COPY docker-entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-ENTRYPOINT ["/entrypoint.sh"]
+# No entrypoint needed - data initialization is handled by migration scripts
+# Volume will be mounted at /data (or path specified by DATABASE_PATH/IMAGE_STORE env vars)
 CMD ["node", "build/index.js"]
