@@ -15,7 +15,8 @@
  *   - Local images directory at ./data/images
  */
 
-import { readFileSync, readdir, readFile, existsSync } from 'fs/promises';
+import { readFileSync, existsSync } from 'fs';
+import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
 import { execSync } from 'child_process';
 
