@@ -17,9 +17,9 @@ ENV NODE_ENV=production
 COPY package*.json ./
 RUN npm ci --omit=dev && npm cache clean --force
 
-# Bring over built app and data
+# Bring over built app and seed data (volume will overlay /app/data at runtime)
 COPY --from=builder /app/build ./build
-COPY --from=builder /app/data ./data
+COPY --from=builder /app/data ./data-seed
 
 COPY docker-entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
