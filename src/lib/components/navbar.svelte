@@ -1,17 +1,31 @@
 <script>
 	let { currentPage = '' } = $props();
 	let mobileMenuOpen = $state(false);
+	let logoError = $state(false);
+	
+	function handleLogoError() {
+		logoError = true;
+	}
 </script>
 
 <nav
-	class="bg-background/95 border-border fixed left-0 right-0 top-0 z-50 border-b backdrop-blur-sm"
+	class="bg-white/10 border-border fixed left-0 right-0 top-0 z-50 border-b backdrop-blur-sm"
 >
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<div class="flex h-16 items-center justify-between">
 			<a href="/" class="flex items-center gap-2">
-				<div class="bg-primary flex h-8 w-8 items-center justify-center rounded-lg">
-					<span class="text-primary-foreground text-sm font-bold">C</span>
-				</div>
+				{#if !logoError}
+					<img
+						src="/images/logo_colour.svg"
+						alt="ConnectED Logo"
+						class="h-8 w-8 object-contain"
+						onerror={handleLogoError}
+					/>
+				{:else}
+					<div class="bg-primary flex h-8 w-8 items-center justify-center rounded-lg">
+						<span class="text-primary-foreground text-sm font-bold">C</span>
+					</div>
+				{/if}
 				<span class="text-foreground text-lg font-semibold">ConnectED</span>
 			</a>
 
@@ -20,7 +34,7 @@
 				<a
 					href="/"
 					class="text-sm font-medium transition-colors {currentPage === 'home'
-						? 'text-primary'
+						? 'text-destructive'
 						: 'text-muted-foreground hover:text-foreground'}"
 				>
 					Home
@@ -28,7 +42,7 @@
 				<a
 					href="/students"
 					class="text-sm font-medium transition-colors {currentPage === 'students'
-						? 'text-primary'
+						? 'text-destructive'
 						: 'text-muted-foreground hover:text-foreground'}"
 				>
 					Students / Researchers
@@ -36,7 +50,7 @@
 				<a
 					href="/universities"
 					class="text-sm font-medium transition-colors {currentPage === 'universities'
-						? 'text-primary'
+						? 'text-destructive'
 						: 'text-muted-foreground hover:text-foreground'}"
 				>
 					Universities / Partners
@@ -44,7 +58,7 @@
 				<a
 					href="/about"
 					class="text-sm font-medium transition-colors {currentPage === 'about'
-						? 'text-primary'
+						? 'text-destructive'
 						: 'text-muted-foreground hover:text-foreground'}"
 				>
 					About
@@ -52,7 +66,7 @@
 				<a
 					href="/contact"
 					class="text-sm font-medium transition-colors {currentPage === 'contact'
-						? 'text-primary'
+						? 'text-destructive'
 						: 'text-muted-foreground hover:text-foreground'}"
 				>
 					Contact
@@ -105,7 +119,7 @@
 					<a
 						href="/"
 						class="py-2 text-sm font-medium {currentPage === 'home'
-							? 'text-primary'
+							? 'text-destructive'
 							: 'text-muted-foreground'}"
 					>
 						Home
@@ -113,7 +127,7 @@
 					<a
 						href="/students"
 						class="py-2 text-sm font-medium {currentPage === 'students'
-							? 'text-primary'
+							? 'text-destructive'
 							: 'text-muted-foreground'}"
 					>
 						Students / Researchers
@@ -121,7 +135,7 @@
 					<a
 						href="/universities"
 						class="py-2 text-sm font-medium {currentPage === 'universities'
-							? 'text-primary'
+							? 'text-destructive'
 							: 'text-muted-foreground'}"
 					>
 						Universities / Partners
@@ -129,7 +143,7 @@
 					<a
 						href="/about"
 						class="py-2 text-sm font-medium {currentPage === 'about'
-							? 'text-primary'
+							? 'text-destructive'
 							: 'text-muted-foreground'}"
 					>
 						About
@@ -137,7 +151,7 @@
 					<a
 						href="/contact"
 						class="py-2 text-sm font-medium {currentPage === 'contact'
-							? 'text-primary'
+							? 'text-destructive'
 							: 'text-muted-foreground'}"
 					>
 						Contact

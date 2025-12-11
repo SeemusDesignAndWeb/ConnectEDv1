@@ -17,6 +17,13 @@
 	<!-- Hero Section -->
 	<section class="px-4 pb-24 pt-32 sm:px-6 lg:px-8">
 		<div class="mx-auto max-w-4xl text-center">
+			<div class="mb-8 flex justify-center">
+				<img
+					src="/images/logo_colour.svg"
+					alt="ConnectED Logo"
+					class="h-20 w-20 object-contain sm:h-24 sm:w-24"
+				/>
+			</div>
 			<h1
 				class="text-foreground mb-6 text-balance font-serif text-4xl font-semibold sm:text-5xl lg:text-6xl"
 			>
@@ -73,7 +80,7 @@
 		<div class="mx-auto max-w-7xl">
 			<div class="grid items-center gap-16 md:grid-cols-2">
 				<div>
-					<span class="text-primary text-sm font-medium uppercase tracking-wider">Our Mission</span>
+					<span class="text-destructive text-sm font-medium uppercase tracking-wider">Our Mission</span>
 					<h2
 						class="text-foreground mb-6 mt-4 text-balance font-serif text-3xl font-semibold sm:text-4xl"
 					>
@@ -93,19 +100,19 @@
 				<div class="bg-secondary rounded-2xl p-8 lg:p-12">
 					<div class="grid grid-cols-2 gap-6">
 						<div class="bg-card rounded-xl p-6 text-center">
-							<div class="text-primary mb-2 text-3xl font-bold">10K+</div>
+							<div class="text-destructive mb-2 text-3xl font-bold">10K+</div>
 							<div class="text-muted-foreground text-sm">Researchers</div>
 						</div>
 						<div class="bg-card rounded-xl p-6 text-center">
-							<div class="text-primary mb-2 text-3xl font-bold">150+</div>
+							<div class="text-destructive mb-2 text-3xl font-bold">150+</div>
 							<div class="text-muted-foreground text-sm">Institutions</div>
 						</div>
 						<div class="bg-card rounded-xl p-6 text-center">
-							<div class="text-primary mb-2 text-3xl font-bold">500+</div>
+							<div class="text-destructive mb-2 text-3xl font-bold">500+</div>
 							<div class="text-muted-foreground text-sm">Supervisors</div>
 						</div>
 						<div class="bg-card rounded-xl p-6 text-center">
-							<div class="text-primary mb-2 text-3xl font-bold">95%</div>
+							<div class="text-destructive mb-2 text-3xl font-bold">95%</div>
 							<div class="text-muted-foreground text-sm">Satisfaction</div>
 						</div>
 					</div>

@@ -4,11 +4,11 @@
 	import FeatureCard from '$lib/components/feature-card.svelte';
 	import PainPointItem from '$lib/components/pain-point-item.svelte';
 
-	const entryPathIcon = `<svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" /></svg>`;
+	const entryPathIcon = `<svg class="w-12 h-12 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" /></svg>`;
 
-	const exitPathIcon = `<svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>`;
+	const exitPathIcon = `<svg class="w-12 h-12 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>`;
 
-	const passportIcon = `<svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" /></svg>`;
+	const passportIcon = `<svg class="w-12 h-12 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" /></svg>`;
 
 	const painPoints = [
 		'Unclear expectations and uncertain milestones throughout the PhD journey',
@@ -54,7 +54,7 @@
 	<section class="px-4 py-20 sm:px-6 lg:px-8">
 		<div class="mx-auto max-w-4xl">
 			<div class="mb-12 text-center">
-				<span class="text-primary text-sm font-medium uppercase tracking-wider"
+				<span class="text-destructive text-sm font-medium uppercase tracking-wider"
 					>Common Challenges</span
 				>
 				<h2 class="text-foreground mt-4 font-serif text-3xl font-semibold">
@@ -75,7 +75,7 @@
 	<section class="bg-secondary px-4 py-20 sm:px-6 lg:px-8">
 		<div class="mx-auto max-w-7xl">
 			<div class="mb-16 text-center">
-				<span class="text-primary text-sm font-medium uppercase tracking-wider">Our Solutions</span>
+				<span class="text-destructive text-sm font-medium uppercase tracking-wider">Our Solutions</span>
 				<h2 class="text-foreground mt-4 text-balance font-serif text-3xl font-semibold sm:text-4xl">
 					How ConnectED supports your journey
 				</h2>
@@ -106,7 +106,7 @@
 		<div class="mx-auto max-w-7xl">
 			<div class="grid items-center gap-16 lg:grid-cols-2">
 				<div>
-					<span class="text-primary text-sm font-medium uppercase tracking-wider">Entry Paths</span>
+					<span class="text-destructive text-sm font-medium uppercase tracking-wider">Entry Paths</span>
 					<h2 class="text-foreground mb-6 mt-4 font-serif text-3xl font-semibold">
 						Start your journey with confidence
 					</h2>
@@ -237,7 +237,7 @@
 					/>
 				</div>
 				<div class="order-1 lg:order-2">
-					<span class="text-primary text-sm font-medium uppercase tracking-wider">Exit Paths</span>
+					<span class="text-destructive text-sm font-medium uppercase tracking-wider">Exit Paths</span>
 					<h2 class="text-foreground mb-6 mt-4 font-serif text-3xl font-semibold">
 						Prepare for life after your PhD
 					</h2>
@@ -351,7 +351,7 @@
 	<!-- Researcher Passport Detail -->
 	<section class="px-4 py-20 sm:px-6 lg:px-8">
 		<div class="mx-auto max-w-4xl text-center">
-			<span class="text-primary text-sm font-medium uppercase tracking-wider"
+			<span class="text-destructive text-sm font-medium uppercase tracking-wider"
 				>Researcher Passport</span
 			>
 			<h2

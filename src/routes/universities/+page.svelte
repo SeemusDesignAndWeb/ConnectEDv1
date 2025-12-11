@@ -4,21 +4,21 @@
 	import FeatureCard from '$lib/components/feature-card.svelte';
 	import PainPointItem from '$lib/components/pain-point-item.svelte';
 
-	const matchingIcon = `<svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
+	const matchingIcon = `<svg class="w-12 h-12 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
 
-	const workflowIcon = `<svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>`;
+	const workflowIcon = `<svg class="w-12 h-12 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>`;
 
-	const adminIcon = `<svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>`;
+	const adminIcon = `<svg class="w-12 h-12 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>`;
 
-	const insightIcon = `<svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>`;
+	const insightIcon = `<svg class="w-12 h-12 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>`;
 
-	const outcomeIcon = `<svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>`;
+	const outcomeIcon = `<svg class="w-12 h-12 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>`;
 
 	const painPoints = [
 		'Heavy administrative load across the research lifecycle',
 		'Poor alignment between applicant capabilities and supervisor capacity',
 		'Low visibility into researcher development and progress',
-		'Inefficient supervision workflows with limited standardization',
+		'Inefficient supervision workflows with limited standardisation',
 		'Increasing pressure to support diverse career outcomes',
 		"Fragmented systems that don't communicate with each other"
 	];
@@ -57,7 +57,7 @@
 	<section class="px-4 py-20 sm:px-6 lg:px-8">
 		<div class="mx-auto max-w-4xl">
 			<div class="mb-12 text-center">
-				<span class="text-primary text-sm font-medium uppercase tracking-wider"
+				<span class="text-destructive text-sm font-medium uppercase tracking-wider"
 					>Institutional Challenges</span
 				>
 				<h2 class="text-foreground mt-4 font-serif text-3xl font-semibold">
@@ -78,7 +78,7 @@
 	<section class="bg-secondary px-4 py-20 sm:px-6 lg:px-8">
 		<div class="mx-auto max-w-7xl">
 			<div class="mb-16 text-center">
-				<span class="text-primary text-sm font-medium uppercase tracking-wider">Our Solutions</span>
+				<span class="text-destructive text-sm font-medium uppercase tracking-wider">Our Solutions</span>
 				<h2 class="text-foreground mt-4 text-balance font-serif text-3xl font-semibold sm:text-4xl">
 					How ConnectED benefits your institution
 				</h2>
@@ -141,14 +141,14 @@
 		<div class="mx-auto max-w-7xl">
 			<div class="mb-20 grid items-center gap-16 lg:grid-cols-2">
 				<div>
-					<span class="text-primary text-sm font-medium uppercase tracking-wider"
+					<span class="text-destructive text-sm font-medium uppercase tracking-wider"
 						>Better Matching</span
 					>
 					<h2 class="text-foreground mb-6 mt-4 font-serif text-3xl font-semibold">
 						AI-powered applicant-supervisor matching
 					</h2>
 					<p class="text-muted-foreground mb-6 leading-relaxed">
-						Our intelligent matching system analyzes research interests, methodological approaches,
+						Our intelligent matching system analyses research interests, methodological approaches,
 						and supervisor capacity to create optimal pairings. This leads to better-prepared
 						applicants and more productive supervisory relationships.
 					</p>
@@ -205,7 +205,7 @@
 				</div>
 				<div class="bg-secondary rounded-2xl p-8 lg:p-12">
 					<img
-						src="/placeholder.svg?height=400&width=500"
+						src="/images/university.jpg"
 						alt="University campus"
 						class="h-auto w-full rounded-xl"
 					/>
@@ -215,13 +215,13 @@
 			<div class="grid items-center gap-16 lg:grid-cols-2">
 				<div class="bg-secondary order-2 rounded-2xl p-8 lg:order-1 lg:p-12">
 					<img
-						src="/placeholder.svg?height=400&width=500"
+						src="/images/dashboardpc.jpg"
 						alt="Analytics dashboard"
 						class="h-auto w-full rounded-xl"
 					/>
 				</div>
 				<div class="order-1 lg:order-2">
-					<span class="text-primary text-sm font-medium uppercase tracking-wider"
+					<span class="text-destructive text-sm font-medium uppercase tracking-wider"
 						>Data-Driven Insights</span
 					>
 					<h2 class="text-foreground mb-6 mt-4 font-serif text-3xl font-semibold">

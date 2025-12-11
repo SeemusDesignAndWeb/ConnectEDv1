@@ -77,7 +77,7 @@
 							</div>
 							<div>
 								<h4 class="text-foreground mb-1 font-medium">Email</h4>
-								<a href="mailto:hello@connected.edu" class="text-primary text-sm hover:underline"
+								<a href="mailto:hello@connected.edu" class="text-destructive text-sm hover:underline"
 									>hello@connected.edu</a
 								>
 							</div>
@@ -201,7 +201,7 @@
 							<div class="mb-6 grid gap-6 sm:grid-cols-2">
 								<div>
 									<label for="organization" class="text-foreground mb-2 block text-sm font-medium"
-										>Organization (optional)</label
+										>Organisation (optional)</label
 									>
 									<input
 										type="text"
