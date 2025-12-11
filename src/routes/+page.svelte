@@ -80,7 +80,7 @@
 		<div class="mx-auto max-w-7xl">
 			<div class="grid items-center gap-16 md:grid-cols-2">
 				<div>
-					<span class="text-destructive text-sm font-medium uppercase tracking-wider">Our Mission</span>
+					<span class="text-destructive text-md font-medium uppercase tracking-wider">Our Mission</span>
 					<h2
 						class="text-foreground mb-6 mt-4 text-balance font-serif text-3xl font-semibold sm:text-4xl"
 					>

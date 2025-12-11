@@ -32,7 +32,7 @@
 			</div>
 
 			<div>
-				<h4 class="text-background mb-4 text-sm font-medium uppercase tracking-wider">Navigation</h4>
+				<h4 class="text-background mb-4 text-md font-medium uppercase tracking-wider">Navigation</h4>
 				<ul class="space-y-3">
 					<li>
 						<a
@@ -71,7 +71,7 @@
 			</div>
 
 			<div>
-				<h4 class="text-background mb-4 text-sm font-medium uppercase tracking-wider">Connect</h4>
+				<h4 class="text-background mb-4 text-md font-medium uppercase tracking-wider">Connect</h4>
 				<ul class="space-y-3">
 					<li>
 						<a

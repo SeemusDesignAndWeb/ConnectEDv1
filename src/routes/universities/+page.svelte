@@ -57,7 +57,7 @@
 	<section class="px-4 py-20 sm:px-6 lg:px-8">
 		<div class="mx-auto max-w-4xl">
 			<div class="mb-12 text-center">
-				<span class="text-destructive text-sm font-medium uppercase tracking-wider"
+				<span class="text-destructive text-md font-medium uppercase tracking-wider"
 					>Institutional Challenges</span
 				>
 				<h2 class="text-foreground mt-4 font-serif text-3xl font-semibold">
@@ -78,7 +78,7 @@
 	<section class="bg-secondary px-4 py-20 sm:px-6 lg:px-8">
 		<div class="mx-auto max-w-7xl">
 			<div class="mb-16 text-center">
-				<span class="text-destructive text-sm font-medium uppercase tracking-wider">Our Solutions</span>
+				<span class="text-destructive text-md font-medium uppercase tracking-wider">Our Solutions</span>
 				<h2 class="text-foreground mt-4 text-balance font-serif text-3xl font-semibold sm:text-4xl">
 					How ConnectED benefits your institution
 				</h2>
@@ -141,7 +141,7 @@
 		<div class="mx-auto max-w-7xl">
 			<div class="mb-20 grid items-center gap-16 lg:grid-cols-2">
 				<div>
-					<span class="text-destructive text-sm font-medium uppercase tracking-wider"
+					<span class="text-destructive text-md font-medium uppercase tracking-wider"
 						>Better Matching</span
 					>
 					<h2 class="text-foreground mb-6 mt-4 font-serif text-3xl font-semibold">
@@ -221,7 +221,7 @@
 					/>
 				</div>
 				<div class="order-1 lg:order-2">
-					<span class="text-destructive text-sm font-medium uppercase tracking-wider"
+					<span class="text-destructive text-md font-medium uppercase tracking-wider"
 						>Data-Driven Insights</span
 					>
 					<h2 class="text-foreground mb-6 mt-4 font-serif text-3xl font-semibold">

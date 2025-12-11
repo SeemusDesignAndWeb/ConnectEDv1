@@ -32,7 +32,7 @@
 		<div class="mx-auto max-w-4xl">
 			<div class="grid gap-12 md:grid-cols-2">
 				<div>
-					<span class="text-destructive text-sm font-medium uppercase tracking-wider">Our Mission</span>
+					<span class="text-destructive text-md font-medium uppercase tracking-wider">Our Mission</span>
 					<h2 class="text-foreground mb-6 mt-4 font-serif text-3xl font-semibold">
 						Transforming the research journey
 					</h2>
@@ -47,7 +47,7 @@
 					</p>
 				</div>
 				<div>
-					<span class="text-destructive text-sm font-medium uppercase tracking-wider">Our Vision</span>
+					<span class="text-destructive text-md font-medium uppercase tracking-wider">Our Vision</span>
 					<h2 class="text-foreground mb-6 mt-4 font-serif text-3xl font-semibold">
 						A connected future
 					</h2>
@@ -69,7 +69,7 @@
 	<section class="bg-secondary px-4 py-20 sm:px-6 lg:px-8">
 		<div class="mx-auto max-w-7xl">
 			<div class="mb-16 text-center">
-				<span class="text-destructive text-sm font-medium uppercase tracking-wider">Our Values</span>
+				<span class="text-destructive text-md font-medium uppercase tracking-wider">Our Values</span>
 				<h2 class="text-foreground mt-4 font-serif text-3xl font-semibold">What guides us</h2>
 			</div>
 
