@@ -1,7 +1,29 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 
-const DB_PATH = process.env.DATABASE_PATH || './data/database.json';
+// Use DATA_STORE env variable, fallback to DATABASE_PATH for backwards compatibility, then default
+const DATA_STORE = process.env.DATA_STORE || process.env.DATABASE_PATH || './data';
+const DB_PATH = DATA_STORE.endsWith('.json') 
+	? DATA_STORE 
+	: `${DATA_STORE}/database.json`;
+
+/**
+ * Determine if we're in production based on environment and path
+ */
+function isProductionEnvironment() {
+	// Check NODE_ENV first
+	if (process.env.NODE_ENV === 'production') {
+		return true;
+	}
+	
+	// Check if DATA_STORE is set to a production volume path (like /DATA or /data)
+	// DATA_STORE is already defined above from process.env
+	if (DATA_STORE && (DATA_STORE === '/DATA' || DATA_STORE === '/data' || DATA_STORE.startsWith('/DATA/') || DATA_STORE.startsWith('/data/'))) {
+		return true;
+	}
+	
+	return false;
+}
 
 /**
  * Get the resolved database path, handling both relative (local) and absolute (production) paths
@@ -12,9 +34,12 @@ function getDbPath() {
 	if (DB_PATH.startsWith('./') || DB_PATH.startsWith('../')) {
 		// Relative path - resolve from project root (local development)
 		finalPath = join(process.cwd(), DB_PATH);
-	} else {
-		// Absolute path (e.g., /data/database.json for Railway volumes)
+	} else if (DB_PATH.startsWith('/')) {
+		// Absolute path - use as-is (could be production volume or local absolute path)
 		finalPath = DB_PATH;
+	} else {
+		// Relative path without ./ - resolve from project root
+		finalPath = join(process.cwd(), DB_PATH);
 	}
 
 	// Ensure the directory exists
@@ -33,10 +58,17 @@ function getDbPath() {
  * Default database structure
  */
 const DEFAULT_DATABASE = {
-	pages: [],
+	pages: [
+		{ id: 'home', path: '/', title: 'Home', content: '' },
+		{ id: 'about', path: '/about', title: 'About', content: '' },
+		{ id: 'students', path: '/students', title: 'Students & Researchers', content: '' },
+		{ id: 'universities', path: '/universities', title: 'Universities & Partners', content: '' },
+		{ id: 'contact', path: '/contact', title: 'Contact', content: '' }
+	],
 	team: [],
 	services: [],
-	settings: {}
+	settings: {},
+	icons: []
 };
 
 /**
@@ -45,10 +77,10 @@ const DEFAULT_DATABASE = {
  */
 export function readDatabase() {
 	const dbPath = getDbPath();
+	const isProduction = isProductionEnvironment();
+	
 	try {
 		if (!existsSync(dbPath)) {
-			const isProduction = process.env.NODE_ENV === 'production' || dbPath.startsWith('/');
-
 			if (isProduction) {
 				// In production, database must exist on the volume
 				console.error('[DB] CRITICAL: Database file not found in production at:', dbPath);
@@ -66,8 +98,6 @@ export function readDatabase() {
 		const data = readFileSync(dbPath, 'utf-8');
 		return JSON.parse(data);
 	} catch (error) {
-		const isProduction = process.env.NODE_ENV === 'production' || dbPath.startsWith('/');
-
 		if (isProduction) {
 			console.error('[DB] CRITICAL: Failed to read database in production:', error.message);
 			throw new Error(
@@ -88,6 +118,8 @@ export function readDatabase() {
  */
 export function writeDatabase(data) {
 	const dbPath = getDbPath();
+	const isProduction = isProductionEnvironment();
+	
 	try {
 		// Ensure directory exists
 		const dir = dirname(dbPath);
@@ -97,8 +129,6 @@ export function writeDatabase(data) {
 		writeFileSync(dbPath, JSON.stringify(data, null, 2), 'utf-8');
 		console.log('[DB] Database written successfully to:', dbPath);
 	} catch (error) {
-		const isProduction = process.env.NODE_ENV === 'production' || dbPath.startsWith('/');
-
 		if (isProduction) {
 			console.error('[DB] CRITICAL: Failed to write database in production:', error.message);
 			throw new Error(

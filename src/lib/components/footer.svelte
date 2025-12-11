@@ -1,4 +1,5 @@
 <script>
+	import { imagePath } from '$lib/utils/images.js';
 	let logoError = $state(false);
 	
 	function handleLogoError() {
@@ -13,7 +14,7 @@
 				<div class="mb-4 flex items-center gap-2">
 					{#if !logoError}
 						<img
-							src="/images/logo_colour.svg"
+							src={imagePath('logo_colour.svg')}
 							alt="ConnectED Logo"
 							class="h-8 w-8 object-contain"
 							onerror={handleLogoError}
@@ -80,13 +81,7 @@
 							>LinkedIn</a
 						>
 					</li>
-					<li>
-						<a
-							href="https://www.twitter.com"
-							class="text-background  text-sm transition-colors"
-							>Twitter</a
-						>
-					</li>
+					
 					<li>
 						<a
 							href="mailto:contact@connected.com"

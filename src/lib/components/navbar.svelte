@@ -1,4 +1,6 @@
 <script>
+	import { imagePath } from '$lib/utils/images.js';
+
 	let { currentPage = '' } = $props();
 	let mobileMenuOpen = $state(false);
 	let logoError = $state(false);
@@ -16,7 +18,7 @@
 			<a href="/" class="flex items-center gap-2">
 				{#if !logoError}
 					<img
-						src="/images/logo_colour.svg"
+					src={imagePath('logo_colour.svg')}
 						alt="ConnectED Logo"
 						class="h-8 w-8 object-contain"
 						onerror={handleLogoError}

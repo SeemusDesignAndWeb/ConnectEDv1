@@ -1,6 +1,7 @@
 <script>
 	import Navbar from '$lib/components/navbar.svelte';
 	import Footer from '$lib/components/footer.svelte';
+	import PageContent from '$lib/components/page-content.svelte';
 
 	let formData = $state({
 		name: '',
@@ -11,6 +12,23 @@
 	});
 
 	let submitted = $state(false);
+	let pageSections = $state(null);
+
+	$effect(() => {
+		(async () => {
+			try {
+				const response = await fetch('/api/pages/contact');
+				if (response.ok) {
+					const data = await response.json();
+					if (data.sections) {
+						pageSections = data.sections;
+					}
+				}
+			} catch (error) {
+				console.error('Failed to load page sections:', error);
+			}
+		})();
+	});
 
 	function handleSubmit(event) {
 		event.preventDefault();
@@ -35,12 +53,18 @@
 	<section class="bg-secondary px-4 pb-16 pt-32 sm:px-6 lg:px-8">
 		<div class="mx-auto max-w-4xl text-center">
 			<h1 class="text-foreground mb-6 text-balance font-serif text-4xl font-semibold sm:text-5xl">
-				Get in Touch
+				{pageSections?.hero?.title || 'Get in Touch'}
 			</h1>
 			<p class="text-muted-foreground mx-auto max-w-2xl text-lg leading-relaxed">
-				Whether you're a student seeking clarity, a researcher looking for support, or an
-				institution exploring partnership, we'd love to hear from you.
+				{pageSections?.hero?.description || "Whether you're a student seeking clarity, a researcher looking for support, or an institution exploring partnership, we'd love to hear from you."}
 			</p>
+		</div>
+	</section>
+
+	<!-- Editable Content Section -->
+	<section class="px-4 py-12 sm:px-6 lg:px-8">
+		<div class="mx-auto max-w-4xl">
+			<PageContent pageId="contact" />
 		</div>
 	</section>
 
@@ -52,8 +76,7 @@
 				<div class="lg:col-span-2">
 					<h2 class="text-foreground mb-6 font-serif text-2xl font-semibold">Let's connect</h2>
 					<p class="text-muted-foreground mb-8 leading-relaxed">
-						Fill out the form and our team will get back to you within 48 hours. You can also reach
-						us directly through the channels below.
+						{pageSections?.formDescription || "Fill out the form and our team will get back to you within 48 hours. You can also reach us directly through the channels below."}
 					</p>
 
 					<div class="space-y-6">
@@ -77,8 +100,8 @@
 							</div>
 							<div>
 								<h4 class="text-foreground mb-1 font-medium">Email</h4>
-								<a href="mailto:hello@connected.edu" class="text-destructive text-sm hover:underline"
-									>hello@connected.edu</a
+								<a href="mailto:{pageSections?.contactInfo?.email || 'hello@connected.edu'}" class="text-destructive text-sm hover:underline"
+									>{pageSections?.contactInfo?.email || 'hello@connected.edu'}</a
 								>
 							</div>
 						</div>
@@ -108,8 +131,8 @@
 							</div>
 							<div>
 								<h4 class="text-foreground mb-1 font-medium">Office</h4>
-								<p class="text-muted-foreground text-sm">
-									Innovation Hub, Research Park<br />Cambridge, UK
+								<p class="text-muted-foreground text-sm whitespace-pre-line">
+									{pageSections?.contactInfo?.office || 'Innovation Hub, Research Park\nCambridge, UK'}
 								</p>
 							</div>
 						</div>
@@ -133,7 +156,7 @@
 							</div>
 							<div>
 								<h4 class="text-foreground mb-1 font-medium">Response Time</h4>
-								<p class="text-muted-foreground text-sm">Within 48 hours</p>
+								<p class="text-muted-foreground text-sm">{pageSections?.contactInfo?.responseTime || 'Within 48 hours'}</p>
 							</div>
 						</div>
 					</div>
@@ -262,32 +285,19 @@
 		<div class="mx-auto max-w-4xl">
 			<div class="mb-12 text-center">
 				<h2 class="text-foreground font-serif text-3xl font-semibold">
-					Frequently Asked Questions
+					{pageSections?.faq?.heading || 'Frequently Asked Questions'}
 				</h2>
 			</div>
 
 			<div class="space-y-4">
+				{#each (pageSections?.faq?.items || []) as faq}
 				<div class="bg-card border-border rounded-xl border p-6">
-					<h4 class="text-foreground mb-2 font-medium">Is ConnectED free for students?</h4>
+						<h4 class="text-foreground mb-2 font-medium">{faq.question}</h4>
 					<p class="text-muted-foreground text-sm leading-relaxed">
-						ConnectED offers free core features for students and researchers. Some advanced features
-						may be available through institutional partnerships.
+							{faq.answer}
 					</p>
 				</div>
-				<div class="bg-card border-border rounded-xl border p-6">
-					<h4 class="text-foreground mb-2 font-medium">How do university partnerships work?</h4>
-					<p class="text-muted-foreground text-sm leading-relaxed">
-						We work with institutions to integrate ConnectED into existing doctoral programmes.
-						Contact us to discuss partnership models tailored to your needs.
-					</p>
-				</div>
-				<div class="bg-card border-border rounded-xl border p-6">
-					<h4 class="text-foreground mb-2 font-medium">Is my data secure?</h4>
-					<p class="text-muted-foreground text-sm leading-relaxed">
-						Absolutely. We take data security seriously and comply with GDPR and institutional data
-						protection requirements. Your Researcher Passport remains under your control.
-					</p>
-				</div>
+				{/each}
 			</div>
 		</div>
 	</section>
