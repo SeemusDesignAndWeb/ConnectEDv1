@@ -13,6 +13,8 @@
 		{ key: 'detailedSections', label: 'Detailed' },
 		{ key: 'cta', label: 'CTA' },
 		{ key: 'contactInfo', label: 'Contact' },
+		{ key: 'formSection', label: 'Form Section' },
+		{ key: 'formSuccess', label: 'Form Success' },
 		{ key: 'faq', label: 'FAQ' },
 		{ key: 'values', label: 'Values' }
 	];
@@ -1324,6 +1326,54 @@ async function loadImages() {
 									{/if}
 								</div>
 							{/each}
+						</div>
+					</div>
+				{/if}
+
+				{#if sections.formSection}
+					<div id="formSection" class="bg-secondary rounded-xl p-6 shadow-sm scroll-mt-20">
+						<h2 class="text-foreground mb-4 font-semibold">Form Section</h2>
+						<div class="space-y-4">
+							<div>
+								<label class="text-foreground mb-2 block text-sm font-medium">Heading</label>
+								<input
+									type="text"
+									bind:value={sections.formSection.heading}
+									class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+								/>
+							</div>
+							<div>
+								<label class="text-foreground mb-2 block text-sm font-medium">Description</label>
+								<textarea
+									bind:value={sections.formSection.description}
+									rows="3"
+									class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+								></textarea>
+							</div>
+						</div>
+					</div>
+				{/if}
+
+				{#if sections.formSuccess}
+					<div id="formSuccess" class="bg-muted rounded-xl p-6 shadow-sm scroll-mt-20">
+						<h2 class="text-foreground mb-4 font-semibold">Form Success Message</h2>
+						<div class="space-y-4">
+							<div>
+								<label class="text-foreground mb-2 block text-sm font-medium">Heading</label>
+								<input
+									type="text"
+									bind:value={sections.formSuccess.heading}
+									class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+								/>
+							</div>
+							<div>
+								<label class="text-foreground mb-2 block text-sm font-medium">Message</label>
+								<textarea
+									bind:value={sections.formSuccess.message}
+									rows="3"
+									class="border-input bg-background text-foreground w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+								></textarea>
+							</div>
 						</div>
 					</div>
 				{/if}
