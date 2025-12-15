@@ -112,10 +112,10 @@
 						{pageSections?.formSection?.heading || 'Let\'s connect'}
 					</h2>
 					<p class="text-muted-foreground mb-8 leading-relaxed">
-						{pageSections?.formSection?.description || pageSections?.formDescription || "Fill out the form and our team will get back to you within 48 hours. You can also reach us directly through the channels below."}
+						{pageSections?.formSection?.description || pageSections?.formDescription || "Fill out the form and our team will get back to you within 48 hours."}
 					</p>
 
-					<div class="space-y-6">
+					<!-- <div class="space-y-6">
 						<div class="flex items-start gap-4">
 							<div
 								class="bg-primary/10 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
@@ -195,7 +195,7 @@
 								<p class="text-muted-foreground text-sm">{pageSections?.contactInfo?.responseTime || 'Within 48 hours'}</p>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 
 				<!-- Form -->

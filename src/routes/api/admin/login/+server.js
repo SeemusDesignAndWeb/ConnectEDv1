@@ -50,3 +50,4 @@ export async function POST({ request, cookies }) {
 		return json({ error: 'Login failed' }, { status: 500 });
 	}
 }
+

@@ -25,3 +25,4 @@ export async function GET({ params, cookies }) {
 		return json({ error: error.message || 'Failed to get page' }, { status: 500 });
 	}
 }
+

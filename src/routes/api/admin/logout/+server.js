@@ -9,3 +9,4 @@ export async function POST({ cookies }) {
 	clearSession(cookies);
 	return json({ success: true });
 }
+

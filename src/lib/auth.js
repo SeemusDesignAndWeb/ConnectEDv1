@@ -149,3 +149,4 @@ export function requireAuth(cookies) {
 	}
 	return true;
 }
+
